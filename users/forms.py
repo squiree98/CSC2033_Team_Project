@@ -1,11 +1,11 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField
-from wtforms.validators import DataRequired, Length, EqualTo
+from wtforms.validators import DataRequired, Length, EqualTo, Email
 
 
 class RegisterForm(FlaskForm):
     # each data field must be error checked
-    email = StringField(validators=[DataRequired()])
+    email = StringField(validators=[DataRequired(), Email()])
     firstName = StringField(validators=[DataRequired()])
     lastName = StringField(validators=[DataRequired()])
 
