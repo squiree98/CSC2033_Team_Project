@@ -3,7 +3,6 @@ from flask import Flask, render_template
 # CONFIG
 app = Flask(__name__)
 
-
 # HOME PAGE VIEW
 @app.route('/')
 def index():
