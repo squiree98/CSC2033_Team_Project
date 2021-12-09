@@ -46,7 +46,7 @@ class Quiz(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=False)  # foreign key
     name = db.Column(db.Text, nullable=False, default=False)
-    category = db.Column(db.String, primary_key=True)
+    category = db.Column(db.String(100), primary_key=True)
     number_of_plays = db.Column(db.Integer, primary_key=True)
 
     scores = db.relationship('Score')
@@ -65,8 +65,8 @@ class Score(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     # foreign keys
-    quiz_id = db.Column(db.String, db.ForeignKey(Quiz.id), nullable=False)
-    user_id = db.Column(db.String, db.ForeignKey(User.id), nullable=False)
+    quiz_id = db.Column(db.Integer, db.ForeignKey(Quiz.id), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=False)
 
     score_value = db.Column(db.Integer, nullable=False)
 
@@ -80,7 +80,7 @@ class QuestionAndAnswers(db.Model):
     __tablename__ = 'question_and_answers'
 
     id = db.Column(db.Integer, primary_key=True)
-    quiz_id = db.Column(db.String, db.ForeignKey(Quiz.id), nullable=False)  # foreign key
+    quiz_id = db.Column(db.Integer, db.ForeignKey(Quiz.id), nullable=False)  # foreign key
     question = db.Column(db.Text, nullable=False, default=False)
     option_1 = db.Column(db.Text, nullable=False, default=False)
     option_2 = db.Column(db.Text, nullable=False, default=False)
