@@ -15,3 +15,4 @@ class CreateQuestionForm(FlaskForm):
     option_3 = StringField(validators=[DataRequired()])
     option_4 = StringField(validators=[DataRequired()])
     answer = IntegerField(validators=[DataRequired()])
+
