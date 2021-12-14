@@ -8,6 +8,10 @@ def init_db():
     db.drop_all()
     db.create_all()
 
+    # temporary data
+
+
+
 
 class User(db.Model, UserMixin):
     __tablename__ = 'user'
