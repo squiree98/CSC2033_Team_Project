@@ -4,21 +4,15 @@ from datetime import datetime
 
 
 def init_db():
-
     db.drop_all()
     db.create_all()
-
-    # temporary data
-
-
 
 
 class User(db.Model, UserMixin):
     __tablename__ = 'user'
 
     id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String(100), nullable=False)
-    last_name = db.Column(db.String(100), nullable=False)
+    username = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(100), nullable=False, unique=True)
     password = db.Column(db.String(100), nullable=False)
     role = db.Column(db.String(100), nullable=False)
@@ -31,9 +25,8 @@ class User(db.Model, UserMixin):
     created_quiz = db.relationship('Quiz')
     quiz_scores = db.relationship('Score')
 
-    def __init__(self, first_name, last_name, email, password, role, subscribed):
-        self.first_name = first_name
-        self.last_name = last_name
+    def __init__(self, username, email, password, role, subscribed):
+        self.username = username
         self.email = email
         self.password = password
         self.role = role
@@ -50,16 +43,16 @@ class Quiz(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=False)  # foreign key
     name = db.Column(db.Text, nullable=False, default=False)
-    category = db.Column(db.String(100), primary_key=True)
+    age_group = db.Column(db.String(100), primary_key=True)
     number_of_plays = db.Column(db.Integer, primary_key=True)
 
     scores = db.relationship('Score')
     questions_and_answers = db.relationship('QuestionAndAnswers')
 
-    def __init__(self, user_id, name, category):
+    def __init__(self, user_id, name, age_group):
         self.user_id = user_id
         self.name = name
-        self.category = category
+        self.age_group = age_group
         self.number_of_plays = 0
 
 
