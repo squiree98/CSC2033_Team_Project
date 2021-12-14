@@ -1,10 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{%  extends "base.html" %}
 
-</body>
-</html>
+{% block content %}
+    <div class="box" style="border: 2px solid #2ea110; border-radius: 25px; padding: 20px; position:relative; left:100px; top:250px;">
+        <form method="POST">
+            <div>
+                Please enter your new quizzes desired name and age range
+            </div>
+            <div class="field" style="position: relative; top:5px;">
+                {{ form.name(class="form-control", placeholder="Quiz name") }}
+            </div>
+            <div class="field" style="position: relative; top:10px;">
+                <label for="Choose an age range:">Please select your quizzes age range</label>
+                <select>
+                    <option value="5-12">5-12</option>
+                    <option value="13-18">13-18</option>
+                    <option value="18+">18+</option>
+                </select>
+            </div>
+            <div style="position: relative; top:15px;">
+                {{ form.submit(class="btn btn-secondary") }}
+            </div>
+        </form>
+    </div>
+{% endblock %}
