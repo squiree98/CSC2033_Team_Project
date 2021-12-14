@@ -1,11 +1,12 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField
+from wtforms import StringField, IntegerField, SubmitField
 from wtforms.validators import DataRequired
 
 
 class CreateQuizForm(FlaskForm):
     name = StringField(validators=[DataRequired()])
-    category = StringField(validators=[DataRequired()])
+    age_range = StringField(validators=[DataRequired()])
+    submit = SubmitField()
 
 
 class CreateQuestionForm(FlaskForm):
