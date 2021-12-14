@@ -8,10 +8,16 @@ def init_db():
     db.create_all()
 
 
+def temporary_data():
+    new_quiz = Quiz(user_id=5, name="Climate Action", age_group="13-17")
+    db.session.add(new_quiz)
+    db.session.commit()
+
+
 class User(db.Model, UserMixin):
     __tablename__ = 'user'
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(100), nullable=False, unique=True)
     password = db.Column(db.String(100), nullable=False)
@@ -40,7 +46,7 @@ class User(db.Model, UserMixin):
 class Quiz(db.Model):
     __tablename__ = 'quiz'
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=False)  # foreign key
     name = db.Column(db.Text, nullable=False, default=False)
     age_group = db.Column(db.String(100), primary_key=True)
@@ -59,7 +65,7 @@ class Quiz(db.Model):
 class Score(db.Model):
     __tablename__ = 'score'
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
 
     # foreign keys
     quiz_id = db.Column(db.Integer, db.ForeignKey(Quiz.id), nullable=False)

@@ -13,14 +13,12 @@
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
       crossorigin="anonymous"/>
-    <link rel="stylesheet" href="{{ url_for('static', filename='take_quizz') }}">
-
     </head>
     <body>
 
         <nav class="navbar navbar-light bg-light">
             <div class="container-fluid">
-                <a class="btn btn-success" href="#" role="button">Leave Quiz</a>
+                <a class="btn btn-success" href={{ url_for('quiz.quizzes') }} role="button">Leave Quiz</a>
              </div>
         </nav>
 
