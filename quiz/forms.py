@@ -5,7 +5,6 @@ from wtforms.validators import DataRequired
 
 class CreateQuizForm(FlaskForm):
     name = StringField(validators=[DataRequired()])
-    age_range = StringField(validators=[DataRequired()])
     submit = SubmitField()
 
 
