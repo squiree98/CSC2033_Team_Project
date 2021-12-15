@@ -6,8 +6,6 @@ from wtforms.validators import DataRequired, Length, EqualTo, Email
 class RegisterForm(FlaskForm):
     # each data field must be error checked
     email = StringField(validators=[DataRequired(), Email()])
-    firstName = StringField(validators=[DataRequired()])
-    lastName = StringField(validators=[DataRequired()])
 
     password = PasswordField(validators=[DataRequired(), Length(min=8, max=16, message="Password must be between 8"
                                                                                        " and 16 characters")])
