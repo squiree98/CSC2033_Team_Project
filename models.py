@@ -13,8 +13,7 @@ class User(db.Model, UserMixin):
     __tablename__ = 'user'
 
     id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String(100), nullable=False)
-    last_name = db.Column(db.String(100), nullable=False)
+    username = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(100), nullable=False, unique=True)
     password = db.Column(db.String(100), nullable=False)
     role = db.Column(db.String(100), nullable=False)
@@ -27,9 +26,8 @@ class User(db.Model, UserMixin):
     created_quiz = db.relationship('Quiz')
     quiz_scores = db.relationship('Score')
 
-    def __init__(self, first_name, last_name, email, password, role, subscribed):
-        self.first_name = first_name
-        self.last_name = last_name
+    def __init__(self, username, email, password, role, subscribed):
+        self.username = username
         self.email = email
         self.password = password
         self.role = role

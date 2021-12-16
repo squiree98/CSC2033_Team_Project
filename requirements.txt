@@ -5,3 +5,9 @@ Flask-Login
 pymysql
 Flask~=2.0.2
 SQLAlchemy~=1.4.28
+pip
+click
+setuptools
+Flask-Session
+Werkzeug
+WTForms
