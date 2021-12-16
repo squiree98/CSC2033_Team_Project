@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, redirect, url_for
 from sqlalchemy import desc
 from models import Quiz
 from quiz.forms import CreateQuestionForm, CreateQuizForm
@@ -39,11 +39,12 @@ def create_quiz():
         db.session.add(new_quiz)
         db.session.commit()
         # load the create question page
-        create_question()
+        return redirect(url_for('quiz.create_question'))
     # if form is invalid then reload the page and let them re-enter data
     return render_template('create_quiz.html', form=form)
 
 
+@quiz_blueprint.route('/create_question', methods=['GET', 'POST'])
 def create_question():
-    form = CreateQuestionForm
+    form = CreateQuestionForm()
     return render_template('create_question.html', form=form)
