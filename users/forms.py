@@ -11,3 +11,9 @@ class RegisterForm(FlaskForm):
                                                                                        " and 16 characters")])
     confirm_password = PasswordField(validators=[DataRequired(), EqualTo('password', message="Password do not match")])
     submit = SubmitField()
+
+
+class LoginForm(FlaskForm):
+    email = StringField(validators=[DataRequired(), Email()])
+    password = PasswordField(validators=[DataRequired()])
+    submit = SubmitField()
