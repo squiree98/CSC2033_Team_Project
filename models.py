@@ -1,11 +1,15 @@
 from flask_login import UserMixin
+
 from app import db
 from datetime import datetime
 
 
 def init_db():
+    new_user = User(username="Admin", email="Admin@email.com", password="AdminPassword", role="Admin", subscribed=False)
     db.drop_all()
     db.create_all()
+    db.session.add(new_user)
+    db.session.commit()
 
 
 def temporary_data():
