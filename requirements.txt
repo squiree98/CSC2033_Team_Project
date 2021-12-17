@@ -11,3 +11,4 @@ setuptools
 Flask-Session
 Werkzeug
 WTForms
+bcrypt
