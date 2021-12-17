@@ -92,7 +92,8 @@ class QuestionAndAnswers(db.Model):
     option_1 = db.Column(db.Text, nullable=False, default=False)
     option_2 = db.Column(db.Text, nullable=False, default=False)
     option_3 = db.Column(db.Text, nullable=False, default=False)
-    answer = db.Column(db.Text, nullable=False, default=False)
+    option_4 = db.Column(db.Text, nullable=False, default=False)
+    answer = db.Column(db.Integer, nullable=False, default=False)
 
     def __init__(self, quiz_id, question, option_1, option_2, option_3, answer):
         self.quiz_id = quiz_id
