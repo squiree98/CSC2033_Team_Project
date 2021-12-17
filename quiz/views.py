@@ -1,6 +1,6 @@
-from flask import Blueprint, render_template, redirect, url_for
+from flask import Blueprint, render_template, redirect, url_for, session
 from sqlalchemy import desc
-from models import Quiz
+from models import Quiz, QuestionAndAnswers
 from quiz.forms import CreateQuestionForm, CreateQuizForm
 from app import db
 
@@ -32,12 +32,9 @@ def create_quiz():
     # if the form is accepted
     if form.validate_on_submit():
         # create version of quiz
-        new_quiz = Quiz(name=form.name.data,
-                        age_group=form.age_range.data,
-                        user_id=2)
-        # and add it too the database
-        db.session.add(new_quiz)
-        db.session.commit()
+        new_quiz = [form.name.data, form.age_range.data, 2]
+        # create session and add data to session
+        session['db_data'] = [new_quiz]
         # load the create question page
         return redirect(url_for('quiz.create_question'))
     # if form is invalid then reload the page and let them re-enter data
@@ -46,5 +43,21 @@ def create_quiz():
 
 @quiz_blueprint.route('/create_question', methods=['GET', 'POST'])
 def create_question():
+    # create form for create question
     form = CreateQuestionForm()
+    # if form details are accepted
+    if form.validate_on_submit():
+        # get session to add data
+        db_data = session.get('db_data')
+        if len(db_data) == 11:
+            # add quiz details to database
+            new_quiz = Quiz(name=db_data[0][0], age_group=db_data[0][1], user_id=db_data[0][2])
+            db.session.add(new_quiz)
+            db.session.commit()
+            # ToDo: query database for quiz ID
+            for x in range(10):
+                new_question = QuestionAndAnswers(question=form.question.data, option_1=form.option_1.data,
+                                                  option_2=form.option_2.data, option_3=form.option_3.data,
+                                                  option_4=form.option_4.data, answer=form.answer.data, quiz_id=10)
+                # ToDo: replace value with quiz ID
     return render_template('create_question.html', form=form)

@@ -10,7 +10,7 @@ def int_check(form, field):
 
 class CreateQuizForm(FlaskForm):
     name = StringField(validators=[DataRequired()])
-    age_range = SelectField(u'Age Range', choices=["5-12", "13-18", "18+"], validators=[DataRequired()])
+    age_range = SelectField(u'Age Range', choices=["5-12", "13-17", "18+"], validators=[DataRequired()])
     submit = SubmitField()
 
 
