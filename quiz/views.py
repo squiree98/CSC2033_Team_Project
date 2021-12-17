@@ -32,6 +32,7 @@ def create_quiz():
     # if the form is accepted
     if form.validate_on_submit():
         # create version of quiz
+        # ToDo: Replace 2 with current_user_id
         new_quiz = [form.name.data, form.age_range.data, 2]
         # create session and add data to session
         session['db_data'] = [new_quiz]
@@ -49,15 +50,27 @@ def create_question():
     if form.validate_on_submit():
         # get session to add data
         db_data = session.get('db_data')
+        print(db_data)
+        # if form is valid add it's details to session
+        db_data.append([form.question.data, form.option_1.data, form.option_2.data, form.option_3.data,
+                        form.option_4.data, form.answer.data])
+        session['db_data'] = db_data
+        # if session is length 11 then quiz and all questions have been created
         if len(db_data) == 11:
             # add quiz details to database
             new_quiz = Quiz(name=db_data[0][0], age_group=db_data[0][1], user_id=db_data[0][2])
             db.session.add(new_quiz)
             db.session.commit()
-            # ToDo: query database for quiz ID
+            # add questions to db
+            # ToDo: query database for quiz ID and replace quiz_id below with it
+            # loop for every question
             for x in range(10):
-                new_question = QuestionAndAnswers(question=form.question.data, option_1=form.option_1.data,
-                                                  option_2=form.option_2.data, option_3=form.option_3.data,
-                                                  option_4=form.option_4.data, answer=form.answer.data, quiz_id=10)
-                # ToDo: replace value with quiz ID
+                # convert session values into models object
+                # x+1 because first value in session is the quiz not a question
+                new_question = QuestionAndAnswers(question=db_data[x+1][0], option_1=db_data[x+1][1],
+                                                  option_2=db_data[x+1][2], option_3=db_data[x+1][3],
+                                                  option_4=db_data[x+1][4], answer=db_data[x+1][5], quiz_id=10)
+                # add models object to database
+                db.session.add(new_question)
+                db.session.commit()
     return render_template('create_question.html', form=form)
