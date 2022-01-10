@@ -1,8 +1,7 @@
 {% extends "tempbase.html" %}
 
 {% block content %}
-    <h1> My Quizzes </h1>
-    <div>
-         <button class="btn btn-secondary"> <a href="/create_quiz">Click me</a></button>
+    <div class="text-right" style="margin: 20px">
+        <a href="{{ url_for('quiz.create_quiz') }}" class="btn btn-success">Create Quiz</a>
     </div>
 {% endblock %}
