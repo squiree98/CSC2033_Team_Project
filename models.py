@@ -5,6 +5,11 @@ from datetime import datetime
 
 
 def init_db():
+    """
+
+    authors Kiara, Bogdan, Ewan
+    date:
+    """
     new_user = User(username="Admin", email="Admin@email.com", password="AdminPassword", role="Admin", subscribed=False)
     db.drop_all()
     db.create_all()
@@ -13,12 +18,22 @@ def init_db():
 
 
 def temporary_data():
+    """
+
+       authors Kiara, Bogdan, Ewan
+       date:
+    """
     new_quiz = Quiz(user_id=5, name="Climate Action", age_group="13-17")
     db.session.add(new_quiz)
     db.session.commit()
 
 
 class User(db.Model, UserMixin):
+    """
+
+       authors Kiara, Bogdan, Ewan
+       date:
+    """
     __tablename__ = 'user'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -48,6 +63,11 @@ class User(db.Model, UserMixin):
 
 
 class Quiz(db.Model):
+    """
+
+       authors Kiara, Bogdan, Ewan
+       date:
+    """
     __tablename__ = 'quiz'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -55,6 +75,7 @@ class Quiz(db.Model):
     name = db.Column(db.Text, nullable=False, default=False)
     age_group = db.Column(db.String(100), primary_key=True)
     number_of_plays = db.Column(db.Integer, primary_key=True)
+    number_of_reports = db.Column(db.Integer)
 
     scores = db.relationship('Score')
     questions_and_answers = db.relationship('QuestionAndAnswers')
@@ -65,8 +86,33 @@ class Quiz(db.Model):
         self.age_group = age_group
         self.number_of_plays = 0
 
+    def update_number_of_plays(self):
+        """
+
+        author Kiara
+        date 07/01/2021
+        """
+        # increment number of plays by 1
+        self.number_of_plays += 1
+        db.session.commit()
+
+    def update_number_of_reports(self):
+        """
+
+        author Kiara
+        date 07/01/2021
+        """
+        # increment number of reports by 1
+        self.number_of_reports += 1
+        db.session.commit()
+
 
 class Score(db.Model):
+    """
+
+       authors Kiara, Bogdan, Ewan
+       date:
+    """
     __tablename__ = 'score'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -84,6 +130,11 @@ class Score(db.Model):
 
 
 class QuestionAndAnswers(db.Model):
+    """
+
+    authors Kiara, Bogdan, Ewan
+    date:
+    """
     __tablename__ = 'question_and_answers'
 
     id = db.Column(db.Integer, primary_key=True)
