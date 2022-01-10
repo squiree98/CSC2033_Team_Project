@@ -1,28 +1,225 @@
-from flask import Blueprint, render_template, redirect, url_for, session
+from flask import Blueprint, render_template, redirect, url_for, session, flash
+from flask_login import current_user, login_required
 from sqlalchemy import desc
-from models import Quiz, QuestionAndAnswers
-from quiz.forms import CreateQuestionForm, CreateQuizForm
+from models import Quiz, QuestionAndAnswers, Score, User
+from quiz.forms import CreateQuestionForm, CreateQuizForm, SearchForm
 from app import db
 
 quiz_blueprint = Blueprint('quiz', __name__, template_folder='templates')
 
 
-@quiz_blueprint.route('/quizzes')
+@quiz_blueprint.route('/quizzes', methods=['GET', 'POST'])
+@login_required
 def quizzes():
-    view_quizzes = Quiz.query.order_by(desc('id')).all()
-    print(view_quizzes)
-    return render_template('quizzes.html', quizzes=view_quizzes)
+    """
+    author Kiara
+    date 30/11/2021
+    """
+    search = SearchForm()
+
+    # check if handled request is a POST method
+    if search.validate_on_submit():
+        # display quizzes that match username given (in search)
+        return search_quizzes(search)
+
+    # get all quizzes that have not been created by currently logged-in user
+    # and display the most recently created quizzes first
+    view_quizzes = Quiz.query.filter(Quiz.user_id != current_user.id).order_by(desc('id')).all()
+
+    return render_template('quizzes.html', form=search, quizzes=view_quizzes)
+
+
+@quiz_blueprint.route("/search_quizzes")
+@login_required
+def search_quizzes(search):
+    """
+
+    author Kiara
+    date 30/11/2021
+    """
+
+    search_string = search.username.data
+
+    user = User.query.filter_by(username=search_string).first()
+
+    # if valid username is entered
+    if user:
+        # check if currently logged-in user has entered their own username
+        if search_string == current_user.username:
+
+            flash('You cannot take your own quizzes. Go to "My Quizzes" to view the quizzes you have created.', category='error')
+            return redirect(url_for('quiz.quizzes'))
+
+        quizzes = Quiz.query.filter_by(user_id=user.id).all()
+
+        # if user has created quizzes, display their quizzes
+        if quizzes:
+            search = SearchForm()
+            return render_template('quizzes.html', form=search, quizzes=quizzes)
+
+        flash('No quizzes found.', category='error')
+        return redirect(url_for('quiz.quizzes'))
+
+    else:
+
+        flash('Invalid Username. Try Again.', category='error')
+        return redirect(url_for('quiz.quizzes'))
+
+
+@quiz_blueprint.route('/<int:id>/report_quiz')
+@login_required #TODO add @requires_role('user')
+def report_quiz(id):
+    """
+        :author Kiara
+        :date 07/01/2022
+    """
+
+    # retrieve quiz from database
+    quiz = Quiz.query.filter_by(id=id).first()
+    # update number of reports (increment number of reports by 1)
+    quiz.update_number_of_reports()
+    return redirect(url_for("quiz.quizzes"))
+
+
+@quiz_blueprint.route('/filter_by_age_group/<age_group>')
+@login_required #TODO add @requires_role('user')
+def filter_by_age_group(age_group):
+    """
+
+    :author Kiara
+    :date 07/01/2022
+    """
+
+    search = SearchForm()
+    filtered_quizzes = Quiz.query.filter(Quiz.user_id != current_user.id, Quiz.age_group == age_group)
+    return render_template('quizzes.html', form=search, quizzes=filtered_quizzes)
+
+
+@quiz_blueprint.route('/filter_by_reported/')
+@login_required #TODO add @requires_role('admin')
+def filter_by_reported():
+    """
+
+    :return:
+    :author Kiara
+    :date 07/01/2022
+    """
+
+    search = SearchForm()
+    reported_quizzes = Quiz.query.filter(Quiz.user_id != current_user.id, Quiz.number_of_reports > 0).order_by(desc('number_of_reports')).all()
+    return render_template('quizzes.html', form=search, quizzes=reported_quizzes)
+
+
+@quiz_blueprint.route('/<int:id>/quiz_setup')
+@login_required #TODO add @requires_role('user')
+def quiz_setup(id):
+    """
+
+    :param id:
+    :return:
+    :author Kiara
+    :date 30/11/2021
+    """
+
+    session['quiz_id'] = id
+
+    # retrieve quiz from database
+    quiz = Quiz.query.filter_by(id=id).first()
+
+    # reverse the order of the quiz questions
+    quiz.questions_and_answers.reverse()
+
+    # empty list for question_ids for quiz
+    question_ids = []
+
+    # add id for each question_and_answers to question_ids array
+    for question_and_answers in quiz.questions_and_answers:
+        question_ids.append(question_and_answers.id)
+
+    # store question_ids array in a session variable
+    session["question_ids"] = question_ids
+
+    # initialise score session variable (?)
+    session["score"] = 0
+
+    return redirect(url_for('quiz.take_quiz'))
+
+
+@quiz_blueprint.route('/take_quiz')
+@login_required #TODO add @requires_role('user')
+def take_quiz():
+    """
+
+    :return:
+    :author Kiara
+    :date 30/11/2021
+    """
+
+    question_ids = session.get('question_ids')
+
+    # if there are questions
+    if question_ids:
+        # get question id for next question
+        question_id = question_ids.pop()
+        # calculate question number (for progress bar)
+        question_number = 10 - len(question_ids)
+        # update question_ids session variable
+        session['question_ids'] = question_ids
+        # retrieve question and answers (options) from database for next question
+        question_and_answers = QuestionAndAnswers.query.filter_by(id=question_id).first()
+        # store correct answer for next question in answer session variable
+        session['answer'] = question_and_answers.answer
+        return render_template('take_quiz.html', question_number=question_number, question=question_and_answers)
+    else:
+        total_score_value = session.get('score')
+        previous_score = Score.query.filter_by(quiz_id=session.get('quiz_id'), user_id=current_user.id).first()
+        # if user has not played quiz before, store user's score in database
+        if not previous_score:
+            # create a Score instance to store user's score for quiz taken
+            score = Score(session.get('quiz_id'), current_user.id, total_score_value)
+            db.session.add(score)  # the new Score instance is added to database
+            db.session.commit()  # database changes are committed
+
+        # if user's current score is greater than previous score, update user's score value for quiz
+        elif total_score_value > previous_score.score_value:
+            previous_score.score_value = total_score_value
+            db.session.commit()  # database changes are committed
+
+        # retrieve quiz from database
+        quiz = Quiz.query.filter_by(id=session.get('quiz_id')).first()
+        # update number of plays for quiz (increment number of plays by 1)
+        quiz.update_number_of_plays()
+
+        #TODO - add display_results.html
+        return render_template("display_results.html", score=total_score_value)
+
+
+@quiz_blueprint.route('/<int:user_answer>/check_answer')
+@login_required #TODO add @requires_role('user')
+def check_answer(user_answer):
+    """
+    :param user_answer:
+    :return:
+
+    author Kiara
+    date 05/01/2021
+    """
+    # get user's score
+    score = session.get('score')
+    # get correct answer for current question
+    correct_answer = session.get('answer')
+    # if user chose correct answer increment score by 1
+    if user_answer == correct_answer:
+        score += 1
+        session['score'] = score
+
+    return redirect(url_for('quiz.take_quiz'))
 
 
 @quiz_blueprint.route('/my_quizzes')
+@login_required #TODO add @requires_role('user')
 def my_quizzes():
     return render_template('my_quizzes.html')
-
-
-@quiz_blueprint.route('/<int:id>/take_quiz')
-def take_quiz(id):
-    print(id)
-    return render_template('take_quiz.html')
 
 
 @quiz_blueprint.route('/create_quiz', methods=['GET', 'POST'])
@@ -79,3 +276,19 @@ def create_question():
                 db.session.commit()
                 return render_template('index.html')
     return render_template('create_question.html', form=form, question_num=len(db_data))
+
+
+@quiz_blueprint.route('/<int:id>/delete_quiz')
+@login_required
+def delete_quiz(id):
+    """
+
+    :param id:
+    :return:
+    author: Kiara
+    date: 30/12/2021
+    """
+    Quiz.query.filter_by(id=id).delete()
+    db.session.commit()
+
+    return redirect(url_for("quiz.quizzes"))

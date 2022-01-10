@@ -11,7 +11,6 @@ def int_check(form, field):
         raise ValidationError(f"Number must be between one and 4")
 
 
-
 class CreateQuizForm(FlaskForm):
     name = StringField(validators=[DataRequired()])
     age_range = SelectField(u'Age Range', choices=["5-12", "13-17", "18+"], validators=[DataRequired()])
@@ -26,3 +25,12 @@ class CreateQuestionForm(FlaskForm):
     option_4 = StringField(validators=[DataRequired()])
     answer = IntegerField(validators=[DataRequired(), int_check])
     submit = SubmitField()
+
+
+class SearchForm(FlaskForm):
+    """
+    author Kiara
+    date 07/11/2021
+    """
+    username = StringField(validators=[DataRequired()])
+    search = SubmitField()
