@@ -7,7 +7,7 @@
                 {{ form.csrf_token() }}
             </div>
             <div>
-                Please enter your details for your question
+                Please enter your details for question {{ question_num }}
             </div>
             <div class="field" style="position: relative; top:5px;">
                 {{ form.question(class="form-control", placeholder="Question") }}

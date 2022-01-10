@@ -33,7 +33,7 @@ def create_quiz():
     if form.validate_on_submit():
         # create version of quiz
         # ToDo: Replace 2 with current_user_id
-        new_quiz = [form.name.data, form.age_range.data, 2]
+        new_quiz = [form.name.data, form.age_range.data, 4]
         # create session and add data to session
         session['db_data'] = [new_quiz]
         # load the create question page
@@ -47,9 +47,9 @@ def create_question():
     # create form for create question
     form = CreateQuestionForm()
     # if form details are accepted
+    db_data = session.get('db_data')
     if form.validate_on_submit():
         # get session to add data
-        db_data = session.get('db_data')
         print(db_data)
         # if form is valid add it's details to session
         db_data.append([form.question.data, form.option_1.data, form.option_2.data, form.option_3.data,
@@ -67,10 +67,11 @@ def create_question():
             for x in range(10):
                 # convert session values into models object
                 # x+1 because first value in session is the quiz not a question
-                new_question = QuestionAndAnswers(question=db_data[x+1][0], option_1=db_data[x+1][1],
-                                                  option_2=db_data[x+1][2], option_3=db_data[x+1][3],
-                                                  option_4=db_data[x+1][4], answer=db_data[x+1][5], quiz_id=10)
+                new_question = QuestionAndAnswers(question=db_data[x + 1][0], option_1=db_data[x + 1][1],
+                                                  option_2=db_data[x + 1][2], option_3=db_data[x + 1][3],
+                                                  option_4=db_data[x + 1][4], answer=db_data[x + 1][5], quiz_id=10)
                 # add models object to database
                 db.session.add(new_question)
                 db.session.commit()
-    return render_template('create_question.html', form=form)
+                return render_template('index.html')
+    return render_template('create_question.html', form=form, question_num=len(db_data))
