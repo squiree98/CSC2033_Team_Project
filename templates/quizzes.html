@@ -1,29 +1,111 @@
 {% extends "tempbase.html" %}  <!-- TODO change to base.html -->
 
 {% block content %}
-    {% for quiz in quizzes%}
-    <div class="card" style="width: 18rem; margin: 20px">
-        <div class="container">
-            <a href="#" class="badge badge-success badge-pill">{{ quiz.age_group }}</a>
+
+    <div class ="btn-group">
+        <!-- Filter Form -->
+        <div class="dropdown" style="margin: 20px">
+            <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Filter
+            </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <li class="dropdown-header">Age Group</li>
+              <!-- TODO: Check age groups -->
+              <a class="dropdown-item" href="{{ url_for('quiz.filter_by_age_group', age_group="7-12") }}">7-12</a>
+              <a class="dropdown-item" href="{{ url_for('quiz.filter_by_age_group', age_group="13-17") }}">13-17</a>
+              <a class="dropdown-item" href="{{ url_for('quiz.filter_by_age_group', age_group="18+") }}">18+</a>
+
+              <!-- Enable Filter by Reported quizzes functionality if user has "admin" role-based access control-->
+              {% if current_user.role=='admin' %}
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="{{ url_for('quiz.filter_by_reported') }}">Reported</a>
+              {% endif %}
+
+          </div>
         </div>
-        <div class="card-body">
-            <h5 class="card-title">{{ quiz.name }}</h5>
-            <p class="card-text"> Leaderboard</p>
-            <ol class="card-text">
-                <li>
-                    <p>Name </p>
-                </li>
-                <li>
-                    <p>Name</p>
-                </li>
-                <li>
-                    <p>Name </p>
-                </li>
-            </ol>
-        </div>
-        <div class="card-footer text-muted"> Number of plays:
-            <span class="badge">{{ quiz.number_of_plays }}</span>
-            <a href="{{ url_for('quiz.take_quiz', id=quiz.id) }}" class="btn btn-success">Take Quiz</a>
+
+        <!-- Search Form -->
+        <form class="d-flex" style="margin: 20px"method="POST">
+            <div class="field">
+                {{ form.csrf_token() }}
+                </div>
+                <div class="field">
+                    {{ form.username(class="form-control me-2", placeholder="Username") }}
+                </div>
+                <div class="field">
+                    {{ form.search(class="btn btn-success", type="submit")}}
+                </div>
+        </form>
+
+    </div>
+
+     <!-- Display flashed messages -->
+    <div class="container mt-3">
+         {% with messages = get_flashed_messages(with_categories=true) %}
+             {% if messages %}
+             {% for category, message in messages %}
+             {% if category == 'error' %}
+               <div class="alert alert-danger alter-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>>
+             {% endif %}
+             {% endfor %}
+             {% endif %}
+         {% endwith %}
+    </div>
+
+    <!-- Display quizzes -->
+    <div class="container">
+
+        <div class="row">
+            {% for quiz in quizzes%}
+                <div clas="col-lg-15 mb-20">
+
+                    <div class="card" style="width: 23rem; margin: 20px">
+                        <div class="container">
+                            <!-- TODO - (optional) add link -->
+                            <a href="#" class="badge badge-success badge-pill">{{ quiz.age_group }}</a>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ quiz.name }}</h5>
+                            <p class="card-text"> Leaderboard</p>
+                            <ol class="card-text">
+                                <li>
+                                    <p>Name </p>
+                                </li>
+                                <li>
+                                    <p>Name</p>
+                                </li>
+                                <li>
+                                    <p>Name </p>
+                                </li>
+                            </ol>
+                        </div>
+
+                        {% if current_user.role=='user' %}
+                        <div class="card-footer text-muted"> Number of plays:
+                            <span class="badge">{{ quiz.number_of_plays }}</span>
+                        {% endif %}
+
+                        {% if current_user.role=='admin' %}
+                            <div class="card-footer text-muted"> Number of reports:
+                                <span class="badge">{{ quiz.number_of_reports }}</span>
+                        {% endif %}
+
+                            <!-- display different buttons depending on role-based access -->
+                            {% if current_user.role =='user' %}
+                                <a href="{{ url_for('quiz.quiz_setup', id=quiz.id) }}" class="btn btn-success">Take Quiz</a>
+                                <a href="{{ url_for('quiz.report_quiz', id=quiz.id) }}" class="btn btn-danger">Report</a>
+                            {% endif %}
+                            {% if current_user.role=='admin' %}
+                                <a href="{{ url_for('quiz.delete_quiz', id=quiz.id) }}" class="btn btn-danger">Delete Quiz</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
         </div>
     </div>
     {% endfor %}
