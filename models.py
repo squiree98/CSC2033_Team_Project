@@ -1,20 +1,28 @@
 from flask_login import UserMixin
+
 from app import db
 from datetime import datetime
 
 
 def init_db():
-
+    new_user = User(username="Admin", email="Admin@email.com", password="AdminPassword", role="Admin", subscribed=False)
     db.drop_all()
     db.create_all()
+    db.session.add(new_user)
+    db.session.commit()
+
+
+def temporary_data():
+    new_quiz = Quiz(user_id=5, name="Climate Action", age_group="13-17")
+    db.session.add(new_quiz)
+    db.session.commit()
 
 
 class User(db.Model, UserMixin):
     __tablename__ = 'user'
 
-    id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String(100), nullable=False)
-    last_name = db.Column(db.String(100), nullable=False)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    username = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(100), nullable=False, unique=True)
     password = db.Column(db.String(100), nullable=False)
     role = db.Column(db.String(100), nullable=False)
@@ -27,9 +35,8 @@ class User(db.Model, UserMixin):
     created_quiz = db.relationship('Quiz')
     quiz_scores = db.relationship('Score')
 
-    def __init__(self, first_name, last_name, email, password, role, subscribed):
-        self.first_name = first_name
-        self.last_name = last_name
+    def __init__(self, username, email, password, role, subscribed):
+        self.username = username
         self.email = email
         self.password = password
         self.role = role
@@ -43,26 +50,26 @@ class User(db.Model, UserMixin):
 class Quiz(db.Model):
     __tablename__ = 'quiz'
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=False)  # foreign key
     name = db.Column(db.Text, nullable=False, default=False)
-    category = db.Column(db.String(100), primary_key=True)
+    age_group = db.Column(db.String(100), primary_key=True)
     number_of_plays = db.Column(db.Integer, primary_key=True)
 
     scores = db.relationship('Score')
     questions_and_answers = db.relationship('QuestionAndAnswers')
 
-    def __init__(self, user_id, name, category):
+    def __init__(self, user_id, name, age_group):
         self.user_id = user_id
         self.name = name
-        self.category = category
+        self.age_group = age_group
         self.number_of_plays = 0
 
 
 class Score(db.Model):
     __tablename__ = 'score'
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
 
     # foreign keys
     quiz_id = db.Column(db.Integer, db.ForeignKey(Quiz.id), nullable=False)
@@ -85,12 +92,14 @@ class QuestionAndAnswers(db.Model):
     option_1 = db.Column(db.Text, nullable=False, default=False)
     option_2 = db.Column(db.Text, nullable=False, default=False)
     option_3 = db.Column(db.Text, nullable=False, default=False)
-    answer = db.Column(db.Text, nullable=False, default=False)
+    option_4 = db.Column(db.Text, nullable=False, default=False)
+    answer = db.Column(db.Integer, nullable=False, default=False)
 
-    def __init__(self, quiz_id, question, option_1, option_2, option_3, answer):
+    def __init__(self, quiz_id, question, option_1, option_2, option_3, option_4, answer):
         self.quiz_id = quiz_id
         self.question = question
         self.option_1 = option_1
         self.option_2 = option_2
         self.option_3 = option_3
+        self.option_4 = option_4
         self.answer = answer

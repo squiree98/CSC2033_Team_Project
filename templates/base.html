@@ -8,16 +8,15 @@
 
         <!-- Title -->
         <title> CSC2033 Team 27</title>
+        {{ share.load() }}
 
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     </head>
     <body style="background-image: url(https://wallpapercave.com/wp/4BSuXqY.jpg); height: 100%; background-position: center; background-repeat: no-repeat; background-size: cover">
         <!-- Navbar -->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand">
-                <img alt="Brand" src="https://tse2.mm.bing.net/th?id=OIP.AKMtMSe0lbSNAVEANxCM4gHaHa&pid=Api&P=0&w=300&h=300" width="100" height="100">
-            </a>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="{{ url_for('index') }}">Logo </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -28,10 +27,10 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Quizzes</a>
+                        <a class="nav-link" href="{{ url_for('quiz.quizzes') }}">Quizzes</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">My Quizzes</a>
+                        <a class="nav-link" href="{{ url_for('quiz.my_quizzes') }}">My Quizzes</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Profile</a>

@@ -1,5 +1,39 @@
-{% extend 'base.html' %}
+{% extends "base.html" %}
 
 {% block content %}
+    <div class="box" style="border: 2px solid #2ea110; border-radius: 25px; padding: 20px; position:relative; left:100px; top:150px; height: 380px;">
+        <form method="POST">
+            <div class="field">
+                {{ form.csrf_token() }}
+            </div>
+            <div>
+                Please enter your details for question {{ question_num }}
+            </div>
+            <div class="field" style="position: relative; top:5px;">
+                {{ form.question(class="form-control", placeholder="Question") }}
+            </div>
+            <div class="field" style="position: relative; top:10px;">
+                {{ form.option_1(class="form-control", placeholder="Option 1") }}
+            </div>
+            <div class="field" style="position: relative; top:15px;">
+                {{ form.option_2(class="form-control", placeholder="Option 2") }}
+            </div>
+            <div class="field" style="position: relative; top:20px;">
+                {{ form.option_3(class="form-control", placeholder="Option 3") }}
+            </div>
+            <div class="field" style="position: relative; top:25px;">
+                {{ form.option_4(class="form-control", placeholder="Option 4") }}
+            </div>
+            <div class="field" style="position: relative; top:30px;">
+                {{ form.answer(class="form-control", placeholder="Answer") }}
 
+                {% for error in form.answer.errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+            <div style="position: relative; top:35px;">
+                {{ form.submit(class="btn btn-secondary") }}
+            </div>
+        </form>
+    </div>
 {% endblock %}
