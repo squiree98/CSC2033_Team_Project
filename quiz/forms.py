@@ -1,3 +1,4 @@
+from flask import flash
 from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, SubmitField, SelectField
 from wtforms.validators import DataRequired, ValidationError
@@ -5,6 +6,7 @@ from wtforms.validators import DataRequired, ValidationError
 
 def int_check(form, field):
     if field.data > 4 or field.data < 1:
+        flash('Please use an integer between 1 and 4 for answer field')
         raise ValidationError(f"Number must be between one and 4")
 
 

@@ -32,8 +32,10 @@ def create_quiz():
     # if the form is accepted
     if form.validate_on_submit():
         # create version of quiz
-        # ToDo: Replace 2 with current_user_id
-        new_quiz = [form.name.data, form.age_range.data, 4]
+        # ToDo: Replace number with current_user_id
+        user_id = 4
+        # user_id = current_user.id
+        new_quiz = [form.name.data, form.age_range.data, user_id]
         # create session and add data to session
         session['db_data'] = [new_quiz]
         # load the create question page
@@ -63,13 +65,15 @@ def create_question():
             db.session.commit()
             # add questions to db
             # ToDo: query database for quiz ID and replace quiz_id below with it
+            quiz_id = 10
+            # quiz_id = Quiz.query.filter_by(id=current_user.id)
             # loop for every question
             for x in range(10):
                 # convert session values into models object
                 # x+1 because first value in session is the quiz not a question
                 new_question = QuestionAndAnswers(question=db_data[x + 1][0], option_1=db_data[x + 1][1],
                                                   option_2=db_data[x + 1][2], option_3=db_data[x + 1][3],
-                                                  option_4=db_data[x + 1][4], answer=db_data[x + 1][5], quiz_id=10)
+                                                  option_4=db_data[x + 1][4], answer=db_data[x + 1][5], quiz_id=quiz_id)
                 # add models object to database
                 db.session.add(new_question)
                 db.session.commit()
