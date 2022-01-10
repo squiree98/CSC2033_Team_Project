@@ -26,34 +26,31 @@
 
             <!-- Progress bar -->
             <div class="progress">
-                <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="10" style="width:100%">Question 10
+                <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow={{ question_number }} aria-valuemin="0" aria-valuemax="10" style="width:100%">Question {{ question_number }}
                 </div>
             </div>
             <div class="container">
+
             <!-- Question -->
                 <div class="container">
                     <h3>Q.</h3>
-                    <h5> What is Climate Change? </h5>
+                    <h5> {{ question.question }}</h5>
                 </div>
-                <!-- TODO: Move buttons to the center and wrap text -->
+                <!-- TODO: Wrap text -->
                 <div class="container text-center">
                     <div class="row">
                         <div class="col text-center">
-                            <a style="height: 150px; width: 500px" class="btn btn-outline-success btn-lg" href="#" role="button">Option 1</a>
-                            <a style="height: 150px; width: 500px" class="btn btn-outline-success btn-lg" href="#" role="button">Option 2 </a>
+                            <a style="height: 150px; width: 500px" class="btn btn-outline-success btn-lg" href="{{ url_for('quiz.check_answer', user_answer=1 ) }}" role="button">{{ question.option_1 }}</a>
+                            <a style="height: 150px; width: 500px" class="btn btn-outline-success btn-lg" href="{{ url_for('quiz.check_answer', user_answer=2 ) }}" role="button">{{ question.option_2 }}</a>
                         </div>
                     </div>
                      <div class="col text-center">
-                            <a style="height: 150px; width: 500px" class="btn btn-outline-success btn-lg" href="#" role="button">Option 1</a>
-                            <a style="height: 150px; width: 500px" class="btn btn-outline-success btn-lg" href="#" role="button">Option 2 </a>
+                            <a style="height: 150px; width: 500px" class="btn btn-outline-success btn-lg" href="{{  url_for('quiz.check_answer', user_answer=3 ) }}" role="button">{{ question.option_3 }}</a>
+                            <a style="height: 150px; width: 500px" class="btn btn-outline-success btn-lg" href="{{  url_for('quiz.check_answer', user_answer=4 ) }}" role="button">{{ question.option_4 }}</a>
                      </div>
                 </div>
             </div>
         </div>
-
-
-
-
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
