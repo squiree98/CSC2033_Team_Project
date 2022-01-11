@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "tempbase.html" %}
 
 {% block content %}
     {{ share.load() }}
@@ -20,5 +20,4 @@
             <a href="{{ url_for('quiz.quiz_setup', id=quiz_id) }}" class="btn btn-success btn-lg">Retake Quiz</a>
       </div>
     </div>
-
 {% endblock %}

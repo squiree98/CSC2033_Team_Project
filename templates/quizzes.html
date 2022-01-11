@@ -3,6 +3,7 @@
 {% block content %}
 
     <div class ="btn-group">
+        {% if not filtered %}
         <!-- Filter Form -->
         <div class="dropdown" style="margin: 20px">
             <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -10,8 +11,7 @@
             </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
               <li class="dropdown-header">Age Group</li>
-              <!-- TODO: Check age groups -->
-              <a class="dropdown-item" href="{{ url_for('quiz.filter_by_age_group', age_group="7-12") }}">7-12</a>
+              <a class="dropdown-item" href="{{ url_for('quiz.filter_by_age_group', age_group="5-12") }}">5-12</a>
               <a class="dropdown-item" href="{{ url_for('quiz.filter_by_age_group', age_group="13-17") }}">13-17</a>
               <a class="dropdown-item" href="{{ url_for('quiz.filter_by_age_group', age_group="18+") }}">18+</a>
 
@@ -36,6 +36,11 @@
                     {{ form.search(class="btn btn-success", type="submit")}}
                 </div>
         </form>
+        {% else %}
+             <div class="text-left" style="margin: 20px">
+                 <a href="{{ url_for('quiz.quizzes') }}" class="btn btn-success">Clear filters</a>
+             </div>
+        {% endif %}
 
     </div>
 
@@ -61,13 +66,11 @@
     <div class="container">
 
         <div class="row">
-            {% for quiz in quizzes%}
-                <div clas="col-lg-15 mb-20">
-
+            {% for quiz in quizzes %}
+                <div clas="col-sm-6">
                     <div class="card" style="width: 23rem; margin: 20px">
                         <div class="container">
-                            <!-- TODO - (optional) add link -->
-                            <a href="#" class="badge badge-success badge-pill">{{ quiz.age_group }}</a>
+                            <a href="{{ url_for("quiz.filter_by_age_group", age_group=quiz.age_group) }}" class="badge badge-success badge-pill">{{ quiz.age_group }}</a>
                         </div>
                         <div class="card-body">
                             <h5 class="card-title">{{ quiz.name }}</h5>
@@ -108,7 +111,7 @@
                         </div>
                     </div>
                 </div>
+            {% endfor %}
         </div>
     </div>
-    {% endfor %}
 {% endblock %}

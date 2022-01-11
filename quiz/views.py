@@ -26,7 +26,7 @@ def quizzes():
     # and display the most recently created quizzes first
     view_quizzes = Quiz.query.filter(Quiz.user_id != current_user.id).order_by(desc('id')).all()
 
-    return render_template('quizzes.html', form=search, quizzes=view_quizzes)
+    return render_template('quizzes.html', form=search, quizzes=view_quizzes, filtered=False)
 
 
 @quiz_blueprint.route("/search_quizzes")
@@ -47,21 +47,22 @@ def search_quizzes(search):
         # check if currently logged-in user has entered their own username
         if search_string == current_user.username:
 
-            flash('You cannot take your own quizzes. Go to "My Quizzes" to view the quizzes you have created.', category='error')
+            if current_user == 'user':
+                flash('You cannot take your own quizzes. Go to "My Quizzes" to view the quizzes you have created.',
+                      category='error')
             return redirect(url_for('quiz.quizzes'))
 
         quizzes = Quiz.query.filter_by(user_id=user.id).all()
 
         # if user has created quizzes, display their quizzes
         if quizzes:
-            search = SearchForm()
-            return render_template('quizzes.html', form=search, quizzes=quizzes)
+            return render_template('quizzes.html', quizzes=quizzes, filtered=True)
 
+        # display message if no quizzes have been created by user
         flash('No quizzes found.', category='error')
         return redirect(url_for('quiz.quizzes'))
 
     else:
-
         flash('Invalid Username. Try Again.', category='error')
         return redirect(url_for('quiz.quizzes'))
 
@@ -90,9 +91,8 @@ def filter_by_age_group(age_group):
     :date 07/01/2022
     """
 
-    search = SearchForm()
     filtered_quizzes = Quiz.query.filter(Quiz.user_id != current_user.id, Quiz.age_group == age_group)
-    return render_template('quizzes.html', form=search, quizzes=filtered_quizzes)
+    return render_template('quizzes.html', quizzes=filtered_quizzes, filtered=True)
 
 
 @quiz_blueprint.route('/filter_by_reported/')
@@ -105,9 +105,8 @@ def filter_by_reported():
     :date 07/01/2022
     """
 
-    search = SearchForm()
     reported_quizzes = Quiz.query.filter(Quiz.user_id != current_user.id, Quiz.number_of_reports > 0).order_by(desc('number_of_reports')).all()
-    return render_template('quizzes.html', form=search, quizzes=reported_quizzes)
+    return render_template('quizzes.html', quizzes=reported_quizzes, filtered=True)
 
 
 @quiz_blueprint.route('/<int:id>/quiz_setup')
@@ -191,7 +190,7 @@ def take_quiz():
         # update number of plays for quiz (increment number of plays by 1)
         quiz.update_number_of_plays()
 
-        return render_template("display_result.html", score=total_score_value, quiz_id=session.get('quiz_id'))
+        return render_template("display_results.html", score=total_score_value, quiz_id=session.get('quiz_id'))
 
 
 @quiz_blueprint.route('/<int:user_answer>/check_answer')
