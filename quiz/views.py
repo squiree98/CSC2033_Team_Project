@@ -173,6 +173,7 @@ def take_quiz():
     else:
         total_score_value = session.get('score')
         previous_score = Score.query.filter_by(quiz_id=session.get('quiz_id'), user_id=current_user.id).first()
+
         # if user has not played quiz before, store user's score in database
         if not previous_score:
             # create a Score instance to store user's score for quiz taken
@@ -190,8 +191,7 @@ def take_quiz():
         # update number of plays for quiz (increment number of plays by 1)
         quiz.update_number_of_plays()
 
-        #TODO - add display_results.html
-        return render_template("display_results.html", score=total_score_value)
+        return render_template("display_result.html", score=total_score_value, quiz_id=session.get('quiz_id'))
 
 
 @quiz_blueprint.route('/<int:user_answer>/check_answer')

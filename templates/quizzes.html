@@ -86,16 +86,18 @@
                         </div>
 
                         {% if current_user.role=='user' %}
+                        <!-- display number of plays -->
                         <div class="card-footer text-muted"> Number of plays:
                             <span class="badge">{{ quiz.number_of_plays }}</span>
                         {% endif %}
 
                         {% if current_user.role=='admin' %}
+                        <!-- display number of reports -->
                             <div class="card-footer text-muted"> Number of reports:
                                 <span class="badge">{{ quiz.number_of_reports }}</span>
                         {% endif %}
 
-                            <!-- display different buttons depending on role-based access -->
+                            <!-- display different buttons depending on role-based access control-->
                             {% if current_user.role =='user' %}
                                 <a href="{{ url_for('quiz.quiz_setup', id=quiz.id) }}" class="btn btn-success">Take Quiz</a>
                                 <a href="{{ url_for('quiz.report_quiz', id=quiz.id) }}" class="btn btn-danger">Report</a>
