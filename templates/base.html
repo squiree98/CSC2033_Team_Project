@@ -38,17 +38,19 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#">Admin</a>
                     </li>
-                    <a href="{{ url_for('users.register') }}" class="navbar-item">
-                            Sign Up
-                    </a>
-                    <a href="{{ url_for('users.login') }}" class="navbar-item">
-                            Login
-                    </a>
                 </ul>
             </div>
-            <form class="form-inline">
-                <button class="btn btn-outline-success" type="button">Log in </button>
-                <button style="position: relative; left:5px;" class="btn btn-outline-success" type="button">Sign up</button>
+
+             <!-- Sign Up, Log In and Log Out Buttons-->
+             <form class="form-inline">
+                <!-- Display different buttons depending on whether user is authenticated-->
+                {% if not current_user.is_authenticated %}
+                    <a class="btn btn-outline-success" href="{{ url_for('users.register') }}" role="button">Sign Up</a>
+                    <a class="btn btn-outline-success" href="{{ url_for('users.login') }}" role="button" style="position: relative; left:5px;" >Log In</a>
+                {% endif %}
+                 {% if current_user.is_authenticated %}
+                    <a class="btn btn-outline-success" href="{{ url_for('users.logout') }}" role="button">Log out</a>
+                {% endif %}
             </form>
         </nav>
         {% block content %}{% endblock %}

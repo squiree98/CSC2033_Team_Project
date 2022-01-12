@@ -18,10 +18,10 @@ def init_db():
     authors Kiara, Bogdan, Ewan
     date:
     """
-    new_user = User(username="Admin", email="Admin@email.com", password="AdminPassword", role="Admin", subscribed=False)
+    #new_user = User(username="Admin", email="Admin@email.com", password="AdminPassword", role="Admin", subscribed=False)
     db.drop_all()
     db.create_all()
-    db.session.add(new_user)
+    #db.session.add(new_user)
     db.session.commit()
 
 
