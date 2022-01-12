@@ -1,4 +1,5 @@
 from flask_login import UserMixin
+
 from app import db
 from datetime import datetime
 import bcrypt
@@ -11,7 +12,11 @@ def hashPwd(pwd):
 
 
 def init_db():
-    new_user = User(username="Admin", email="Admin@email.com", password="AdminPassword", role="Admin", subscribed=False)
+    """
+
+    authors Kiara, Bogdan, Ewan
+    date:
+    """    new_user = User(username="Admin", email="Admin@email.com", password="AdminPassword", role="Admin", subscribed=False)
     db.drop_all()
     db.create_all()
     db.session.add(new_user)
@@ -19,12 +24,22 @@ def init_db():
 
 
 def temporary_data():
+    """
+
+       authors Kiara, Bogdan, Ewan
+       date:
+    """
     new_quiz = Quiz(user_id=5, name="Climate Action", age_group="13-17")
     db.session.add(new_quiz)
     db.session.commit()
 
 
 class User(db.Model, UserMixin):
+    """
+
+       authors Kiara, Bogdan, Ewan
+       date:
+    """
     __tablename__ = 'user'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -54,6 +69,11 @@ class User(db.Model, UserMixin):
 
 
 class Quiz(db.Model):
+    """
+
+       authors Kiara, Bogdan, Ewan
+       date:
+    """
     __tablename__ = 'quiz'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -61,6 +81,7 @@ class Quiz(db.Model):
     name = db.Column(db.Text, nullable=False, default=False)
     age_group = db.Column(db.String(100), primary_key=True)
     number_of_plays = db.Column(db.Integer, primary_key=True)
+    number_of_reports = db.Column(db.Integer)
 
     scores = db.relationship('Score')
     questions_and_answers = db.relationship('QuestionAndAnswers')
@@ -71,8 +92,33 @@ class Quiz(db.Model):
         self.age_group = age_group
         self.number_of_plays = 0
 
+    def update_number_of_plays(self):
+        """
+
+        author Kiara
+        date 07/01/2021
+        """
+        # increment number of plays by 1
+        self.number_of_plays += 1
+        db.session.commit()
+
+    def update_number_of_reports(self):
+        """
+
+        author Kiara
+        date 07/01/2021
+        """
+        # increment number of reports by 1
+        self.number_of_reports += 1
+        db.session.commit()
+
 
 class Score(db.Model):
+    """
+
+       authors Kiara, Bogdan, Ewan
+       date:
+    """
     __tablename__ = 'score'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -90,6 +136,11 @@ class Score(db.Model):
 
 
 class QuestionAndAnswers(db.Model):
+    """
+
+    authors Kiara, Bogdan, Ewan
+    date:
+    """
     __tablename__ = 'question_and_answers'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -98,12 +149,14 @@ class QuestionAndAnswers(db.Model):
     option_1 = db.Column(db.Text, nullable=False, default=False)
     option_2 = db.Column(db.Text, nullable=False, default=False)
     option_3 = db.Column(db.Text, nullable=False, default=False)
-    answer = db.Column(db.Text, nullable=False, default=False)
+    option_4 = db.Column(db.Text, nullable=False, default=False)
+    answer = db.Column(db.Integer, nullable=False, default=False)
 
-    def __init__(self, quiz_id, question, option_1, option_2, option_3, answer):
+    def __init__(self, quiz_id, question, option_1, option_2, option_3, option_4, answer):
         self.quiz_id = quiz_id
         self.question = question
         self.option_1 = option_1
         self.option_2 = option_2
         self.option_3 = option_3
+        self.option_4 = option_4
         self.answer = answer

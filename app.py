@@ -1,6 +1,10 @@
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager
+from flask_login import LoginManage
+from flask_share import Share
+
+# create share object
+share = Share()
 
 # CONFIG
 app = Flask(__name__)
@@ -9,6 +13,7 @@ app.config[
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'csc2033_team27_key'
 
+share.init_app(app)
 db = SQLAlchemy(app)
 
 
@@ -42,5 +47,7 @@ if __name__ == '__main__':
     #blueprints
     from users.views import users_blueprint
     app.register_blueprint(users_blueprint)
+    from quiz.views import quiz_blueprint
 
+    app.register_blueprint(quiz_blueprint)
     app.run(debug=True)

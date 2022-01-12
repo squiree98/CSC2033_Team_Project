@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class ="btn-group">
+        {% if not filtered %}
+        <!-- Filter Form -->
+        <div class="dropdown" style="margin: 20px">
+            <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Filter
+            </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <li class="dropdown-header">Age Group</li>
+              <a class="dropdown-item" href="{{ url_for('quiz.filter_by_age_group', age_group="5-12") }}">5-12</a>
+              <a class="dropdown-item" href="{{ url_for('quiz.filter_by_age_group', age_group="13-17") }}">13-17</a>
+              <a class="dropdown-item" href="{{ url_for('quiz.filter_by_age_group', age_group="18+") }}">18+</a>
+
+              <!-- Enable Filter by Reported quizzes functionality if user has "admin" role-based access control-->
+              {% if current_user.role=='admin' %}
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="{{ url_for('quiz.filter_by_reported') }}">Reported</a>
+              {% endif %}
+
+          </div>
+        </div>
+
+        <!-- Search Form -->
+        <form class="d-flex" style="margin: 20px"method="POST">
+            <div class="field">
+                {{ form.csrf_token() }}
+                </div>
+                <div class="field">
+                    {{ form.username(class="form-control me-2", placeholder="Username") }}
+                </div>
+                <div class="field">
+                    {{ form.search(class="btn btn-success", type="submit")}}
+                </div>
+        </form>
+        {% else %}
+             <div class="text-left" style="margin: 20px">
+                 <a href="{{ url_for('quiz.quizzes') }}" class="btn btn-success">Clear filter</a>
+             </div>
+        {% endif %}
+
+    </div>
+
+     <!-- Display flashed messages -->
+    <div class="container mt-3">
+         {% with messages = get_flashed_messages(with_categories=true) %}
+             {% if messages %}
+             {% for category, message in messages %}
+             {% if category == 'error' %}
+               <div class="alert alert-danger alter-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>>
+             {% endif %}
+             {% endfor %}
+             {% endif %}
+         {% endwith %}
+    </div>
+
+    <!-- Display quizzes -->
+    <div class="container">
+
+        <div class="row">
+            {% for quiz in quizzes %}
+                <div clas="col-sm-6">
+                    <div class="card" style="width: 23rem; margin: 20px">
+                        <div class="container">
+                            <a href="{{ url_for("quiz.filter_by_age_group", age_group=quiz.age_group) }}" class="badge badge-success badge-pill">{{ quiz.age_group }}</a>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ quiz.name }}</h5>
+                            <p class="card-text"> Leaderboard</p>
+                            <ol class="card-text">
+                                <li>
+                                    <p>Name </p>
+                                </li>
+                                <li>
+                                    <p>Name</p>
+                                </li>
+                                <li>
+                                    <p>Name </p>
+                                </li>
+                            </ol>
+                        </div>
+
+                        {% if current_user.role=='user' %}
+                        <!-- display number of plays -->
+                        <div class="card-footer text-muted"> Number of plays:
+                            <span class="badge">{{ quiz.number_of_plays }}</span>
+                        {% endif %}
+
+                        {% if current_user.role=='admin' %}
+                        <!-- display number of reports -->
+                            <div class="card-footer text-muted"> Number of reports:
+                                <span class="badge">{{ quiz.number_of_reports }}</span>
+                        {% endif %}
+
+                            <!-- display different buttons depending on role-based access control-->
+                            {% if current_user.role =='user' %}
+                                <a href="{{ url_for('quiz.quiz_setup', id=quiz.id) }}" class="btn btn-success">Take Quiz</a>
+                                <a href="{{ url_for('quiz.report_quiz', id=quiz.id) }}" class="btn btn-danger">Report</a>
+                            {% endif %}
+                            {% if current_user.role=='admin' %}
+                                <a href="{{ url_for('quiz.delete_quiz', id=quiz.id) }}" class="btn btn-danger">Delete Quiz</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
