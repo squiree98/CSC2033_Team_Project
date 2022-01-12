@@ -2,6 +2,13 @@ from flask_login import UserMixin
 
 from app import db
 from datetime import datetime
+import bcrypt
+
+def hashPwd(pwd):
+    bpwd = pwd.encode()
+    salt = bcrypt.gensalt()
+    hashedpwd = bcrypt.hashpw(bpwd,salt)
+    return hashedpwd
 
 
 def init_db():
@@ -9,8 +16,7 @@ def init_db():
 
     authors Kiara, Bogdan, Ewan
     date:
-    """
-    new_user = User(username="Admin", email="Admin@email.com", password="AdminPassword", role="Admin", subscribed=False)
+    """    new_user = User(username="Admin", email="Admin@email.com", password="AdminPassword", role="Admin", subscribed=False)
     db.drop_all()
     db.create_all()
     db.session.add(new_user)
@@ -53,7 +59,7 @@ class User(db.Model, UserMixin):
     def __init__(self, username, email, password, role, subscribed):
         self.username = username
         self.email = email
-        self.password = password
+        self.password = hashPwd(password)
         self.role = role
         self.subscribed = subscribed
         self.registered_on = datetime.now()

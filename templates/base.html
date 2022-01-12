@@ -38,6 +38,12 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#">Admin</a>
                     </li>
+                    <a href="{{ url_for('users.register') }}" class="navbar-item">
+                            Sign Up
+                    </a>
+                    <a href="{{ url_for('users.login') }}" class="navbar-item">
+                            Login
+                    </a>
                 </ul>
             </div>
             <form class="form-inline">
@@ -46,7 +52,7 @@
             </form>
         </nav>
         {% block content %}{% endblock %}
-
+      
         <!-- Javascript libraries -->
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
