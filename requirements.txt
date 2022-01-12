@@ -6,3 +6,4 @@ pymysql
 Flask~=2.0.2
 SQLAlchemy~=1.4.27
 flask-share
+bcrypt

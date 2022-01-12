@@ -4,6 +4,7 @@ from app import db
 from datetime import datetime
 import bcrypt
 
+
 def hashPwd(pwd):
     bpwd = pwd.encode()
     salt = bcrypt.gensalt()
@@ -16,7 +17,8 @@ def init_db():
 
     authors Kiara, Bogdan, Ewan
     date:
-    """    new_user = User(username="Admin", email="Admin@email.com", password="AdminPassword", role="Admin", subscribed=False)
+    """
+    new_user = User(username="Admin", email="Admin@email.com", password="AdminPassword", role="Admin", subscribed=False)
     db.drop_all()
     db.create_all()
     db.session.add(new_user)
@@ -79,8 +81,8 @@ class Quiz(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=False)  # foreign key
     name = db.Column(db.Text, nullable=False, default=False)
-    age_group = db.Column(db.String(100), primary_key=True)
-    number_of_plays = db.Column(db.Integer, primary_key=True)
+    age_group = db.Column(db.String(100))
+    number_of_plays = db.Column(db.Integer)
     number_of_reports = db.Column(db.Integer)
 
     scores = db.relationship('Score')
@@ -91,6 +93,7 @@ class Quiz(db.Model):
         self.name = name
         self.age_group = age_group
         self.number_of_plays = 0
+        self.number_of_reports = 0
 
     def update_number_of_plays(self):
         """
