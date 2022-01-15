@@ -8,3 +8,4 @@ SQLAlchemy~=1.4.27
 flask-share
 bcrypt
 email_validator
+cryptography
