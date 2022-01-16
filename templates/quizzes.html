@@ -55,7 +55,7 @@
                     <button type="button" class="close" data-dismiss="alert">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                </div>>
+                </div>
              {% endif %}
              {% endfor %}
              {% endif %}
@@ -67,7 +67,7 @@
 
         <div class="row">
             {% for quiz in quizzes %}
-                <div clas="col-sm-6">
+                <div class="col-sm-6">
                     <div class="card" style="width: 23rem; margin: 20px">
                         <div class="container">
                             <a href="{{ url_for("quiz.filter_by_age_group", age_group=quiz.age_group) }}" class="badge badge-success badge-pill">{{ quiz.age_group }}</a>
