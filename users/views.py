@@ -38,7 +38,7 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         pwdin = form.password.data.encode()
-        dbhash = user.password.encode()
+        dbhash = user.password
 
         if not user or not bcrypt.checkpw(pwdin, dbhash):
             flash('Please check your login details and try again')
