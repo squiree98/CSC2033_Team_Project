@@ -18,22 +18,66 @@ def init_db():
     authors Kiara, Bogdan, Ewan
     date:
     """
-    # new_user = User(username="Admin", email="Admin@email.com", password="$2b$12$WVjfaXCpS8fFPRMClIqnAulf8oHTGUGSlIzKJ9rQ1ZtmLiOG7tuf.", role="Admin", subscribed=False)
+
+    # delete database tables (if they exist)
     db.drop_all()
+    # create database tables
     db.create_all()
-    # db.session.add(new_user)
-    db.session.commit()
+
+    # add sample data to database
+    add_sample_data()
 
 
-def temporary_data():
-    """
+def add_sample_data():
+    # USERS
+    # with 'user' role
+    user1 = User(username="User1", email="User1@email.com",
+                 password="$2b$12$WVjfaXCpS8fFPRMClIqnAulf8oHTGUGSlIzKJ9rQ1ZtmLiOG7tuf", role="user", subscribed=False)
+    user2 = User(username="User2", email="User2@email.com",
+                 password="$2b$12$WVjfaXCpS8fFPRMClIqnAulf8oHTGUGSlIzKJ9rQ1ZtmLiOG7tuf", role="user", subscribed=False)
+    user3 = User(username="User3", email="User3@email.com",
+                 password="$2b$12$WVjfaXCpS8fFPRMClIqnAulf8oHTGUGSlIzKJ9rQ1ZtmLiOG7tuf", role="user", subscribed=False)
+    user4 = User(username="User4", email="User4@email.com",
+                 password="$2b$12$WVjfaXCpS8fFPRMClIqnAulf8oHTGUGSlIzKJ9rQ1ZtmLiOG7tuf", role="user", subscribed=False)
 
-       authors Kiara, Bogdan, Ewan
-       date:
-    """
-    new_quiz = Quiz(user_id=5, name="Climate Action", age_group="13-17")
-    db.session.add(new_quiz)
-    db.session.commit()
+    # with 'admin' role
+    admin1 = User(username="Admin1", email="Admin1@email.com",
+                  password="$2b$12$WVjfaXCpS8fFPRMClIqnAulf8oHTGUGSlIzKJ9rQ1ZtmLiOG7tuf", role="admin",
+                  subscribed=False)
+    admin2 = User(username="Admin2", email="Admin2@email.com",
+                  password="$2b$12$WVjfaXCpS8fFPRMClIqnAulf8oHTGUGSlIzKJ9rQ1ZtmLiOG7tuf", role="admin",
+                  subscribed=False)
+
+    db.session.add_all([user1, user2, user3, user4, admin1, admin2])  # add users to database
+    db.session.commit()  # commit changes
+
+    # QUIZZES
+    # created by user1
+    quiz1 = Quiz(user1.id, "What is climate change?", "5-12")
+    # TODO: questions and answers for quiz1
+
+    quiz2 = Quiz(user1.id, "?", "13-17")
+    # TODO: questions and answers for quiz1
+
+
+    quiz3 = Quiz(user1.id, "?", "18+")
+    # TODO: questions and answers for quiz1
+
+    db.session.add_all([quiz1, quiz2, quiz3])  # add quizzes to database
+    db.session.commit()  # commit changes
+
+    # SCORES
+    # for quiz1
+    score1 = Score(quiz1.id, user2.id, 10)
+    score2 = Score(quiz1.id, user3.id, 10)
+    score3 = Score(quiz1.id, user4.id, 7)
+
+    # for quiz2
+    score4 = Score(quiz2.id, user2.id, 5)
+    score5 = Score(quiz2.id, user3.id, 3)
+
+    db.session.add_all([score1, score2, score3, score4, score5])  # add scores to database
+    db.session.commit()  # commit changes
 
 
 class User(db.Model, UserMixin):
