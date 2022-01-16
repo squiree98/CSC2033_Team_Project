@@ -3,7 +3,7 @@ from flask_login import current_user, login_required
 from sqlalchemy import desc
 from models import Quiz, QuestionAndAnswers, Score, User
 from quiz.forms import CreateQuestionForm, CreateQuizForm, SearchForm
-from app import db
+from app import db, requires_roles
 
 quiz_blueprint = Blueprint('quiz', __name__, template_folder='templates')
 
@@ -69,7 +69,8 @@ def search_quizzes(search):
 
 
 @quiz_blueprint.route('/<int:id>/report_quiz')
-@login_required #TODO add @requires_role('user')
+@login_required
+@requires_roles('user')
 def report_quiz(id):
     """
         :author Kiara
@@ -84,7 +85,8 @@ def report_quiz(id):
 
 
 @quiz_blueprint.route('/filter_by_age_group/<age_group>')
-@login_required #TODO add @requires_role('user')
+@login_required
+@requires_roles('user')
 def filter_by_age_group(age_group):
     """
 
@@ -97,7 +99,8 @@ def filter_by_age_group(age_group):
 
 
 @quiz_blueprint.route('/filter_by_reported/')
-@login_required #TODO add @requires_role('admin')
+@login_required
+@requires_roles('admin')
 def filter_by_reported():
     """
 
@@ -111,7 +114,8 @@ def filter_by_reported():
 
 
 @quiz_blueprint.route('/<int:id>/quiz_setup')
-@login_required #TODO add @requires_role('user')
+@login_required
+@requires_roles('user')
 def quiz_setup(id):
     """
 
@@ -146,7 +150,8 @@ def quiz_setup(id):
 
 
 @quiz_blueprint.route('/take_quiz')
-@login_required #TODO add @requires_role('user')
+@login_required
+@requires_roles('user')
 def take_quiz():
     """
 
@@ -195,7 +200,8 @@ def take_quiz():
 
 
 @quiz_blueprint.route('/<int:user_answer>/check_answer')
-@login_required #TODO add @requires_role('user')
+@login_required
+@requires_roles('user')
 def check_answer(user_answer):
     """
     :param user_answer:
@@ -217,12 +223,15 @@ def check_answer(user_answer):
 
 
 @quiz_blueprint.route('/my_quizzes')
-@login_required #TODO add @requires_role('user')
+@login_required
+@requires_roles('user')
 def my_quizzes():
     return render_template('my_quizzes.html')
 
 
 @quiz_blueprint.route('/create_quiz', methods=['GET', 'POST'])
+@login_required
+@requires_roles('user')
 def create_quiz():
     # create form
     form = CreateQuizForm()
@@ -242,6 +251,8 @@ def create_quiz():
 
 
 @quiz_blueprint.route('/create_question', methods=['GET', 'POST'])
+@login_required
+@requires_roles('user')
 def create_question():
     # create form for create question
     form = CreateQuestionForm()
@@ -279,6 +290,8 @@ def create_question():
 
 
 @quiz_blueprint.route('/<int:id>/delete_quiz')
+@login_required
+@requires_roles('user')
 @login_required
 def delete_quiz(id):
     """

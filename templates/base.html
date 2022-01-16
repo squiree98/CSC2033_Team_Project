@@ -26,18 +26,24 @@
                         <a class="nav-link" href="{{ url_for('index') }}">Home <span class="sr-only">(current)</span>
                         </a>
                     </li>
+                    {% if current_user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('quiz.quizzes') }}">Quizzes</a>
                     </li>
+                    {% endif %}
+                    {% if current_user.is_authenticated and current_user.role == 'user'%}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('quiz.my_quizzes') }}">My Quizzes</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Profile</a>
                     </li>
+                    {% endif %}
+                    {% if current_user.is_authenticated and current_user.role == 'admin'%}
                     <li class="nav-item">
                         <a class="nav-link" href="#">Admin</a>
                     </li>
+                    {% endif %}
                 </ul>
             </div>
 
@@ -45,16 +51,20 @@
              <form class="form-inline">
                 <!-- Display different buttons depending on whether user is authenticated-->
                 {% if not current_user.is_authenticated %}
-                    <a class="btn btn-outline-success" href="{{ url_for('users.register') }}" role="button">Sign Up</a>
-                    <a class="btn btn-outline-success" href="{{ url_for('users.login') }}" role="button" style="position: relative; left:5px;" >Log In</a>
+                    <a class="btn btn-outline-success" href="{{ url_for('users.register') }}" role="button">Sign up</a>
+                    <a class="btn btn-outline-success" href="{{ url_for('users.login') }}" role="button" style="position: relative; left:5px;" >Log in</a>
                 {% endif %}
                  {% if current_user.is_authenticated %}
                     <a class="btn btn-outline-success" href="{{ url_for('users.logout') }}" role="button">Log out</a>
                 {% endif %}
             </form>
         </nav>
-        {% block content %}{% endblock %}
-      
+
+        <div class="container">
+            <!-- Content here -->
+            {% block content %}{% endblock %}
+        </div>
+
         <!-- Javascript libraries -->
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
