@@ -1,4 +1,4 @@
-from flask_login import login_user, logout_user
+from flask_login import login_user, logout_user, login_required
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from app import db
 from models import User
@@ -51,7 +51,9 @@ def login():
         return render_template('profile.html')
     return render_template('login.html', form=form)
 
+
 @users_blueprint.route('/logout')
+@login_required
 def logout():
     logout_user()
     return redirect(url_for('index'))
