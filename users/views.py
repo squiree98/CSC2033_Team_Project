@@ -18,8 +18,8 @@ def register():
         if user:
             flash('Username address already exists')
             return render_template('register.html', form=form)
-        emailadress = form.email.data
-        username = emailadress.split('@', 1)[0]
+        email_address = form.email.data
+        username = email_address.split('@', 1)[0]
 
         new_user = User(username=username, email=form.email.data, password=form.password.data, role='user',
                         subscribed=0)
@@ -37,11 +37,10 @@ def login():
 
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
-        pwdin = form.password.data.encode()
-        dbhash = user.password
+        pwd_in = form.password.data.encode()
 
-        if not user or not bcrypt.checkpw(pwdin, dbhash):
-            flash('Please check your login details and try again')
+        if not user or not bcrypt.checkpw(pwd_in, user.password):
+            flash('Please check your login details and try again.')
             return render_template('login.html', form=form)
         login_user(user)
         user.currently_logged_in = datetime.now()
