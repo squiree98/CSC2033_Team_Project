@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="box" style="border: 2px solid #2ea110; border-radius: 25px; padding: 20px; position:relative; left:100px; top:250px;">
+    <div class="box" style="border: 2px solid #2ea110; border-radius: 25px; padding: 20px; position:relative; left:500px; top:250px; width:1000px; height:200px;">
         <form method="POST">
             <div class="field">
                 {{ form.csrf_token() }}
@@ -15,10 +15,6 @@
             <div class="field" style="position: relative; top:10px;">
                 {{ form.age_range(class="form-control", placeholder="Age Range") }}
             </div>
-            <!-- Copy lines 19 - 21 for share function -->
-            <h1>Hello, Flask-Share!</h1>
-                <p>Share here</p>
-                {{ share.create(title='Share with: ') }}
             <div style="position: relative; top:15px;">
                 {{ form.submit(class="btn btn-success") }}
             </div>
