@@ -38,14 +38,15 @@ def search_quizzes(search):
     date 30/11/2021
     """
 
-    search_string = search.username.data
+    search_string = search.email.data
 
-    user = User.query.filter_by(username=search_string).first()
+    # retrieve the user with email address equal to the searched email address
+    user = User.query.filter_by(email=search_string).first()
 
-    # if valid username is entered
+    # if valid email is entered
     if user:
-        # check if currently logged-in user has entered their own username
-        if search_string == current_user.username:
+        # check if currently logged-in user has entered their own email address
+        if search_string == current_user.email:
 
             if current_user == 'user':
                 flash('You cannot take your own quizzes. Go to "My Quizzes" to view the quizzes you have created.',
@@ -63,7 +64,7 @@ def search_quizzes(search):
         return redirect(url_for('quiz.quizzes'))
 
     else:
-        flash('Invalid Username. Try Again.', category='error')
+        flash('Invalid Email Address. Try Again.', category='error')
         return redirect(url_for('quiz.quizzes'))
 
 
@@ -138,7 +139,7 @@ def quiz_setup(id):
     # store question_ids array in a session variable
     session["question_ids"] = question_ids
 
-    # initialise score session variable (?)
+    # initialise score session variable to zero
     session["score"] = 0
 
     return redirect(url_for('quiz.take_quiz'))
