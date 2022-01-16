@@ -18,7 +18,6 @@ def init_db():
     authors Kiara, Bogdan, Ewan
     date:
     """
-
     # delete database tables (if they exist)
     db.drop_all()
     # create database tables

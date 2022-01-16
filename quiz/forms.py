@@ -32,5 +32,5 @@ class SearchForm(FlaskForm):
     author Kiara
     date 07/11/2021
     """
-    username = StringField(validators=[DataRequired()])
+    email = StringField(validators=[DataRequired()])
     search = SubmitField()
