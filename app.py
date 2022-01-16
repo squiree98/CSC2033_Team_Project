@@ -33,6 +33,10 @@ def login():
 
 if __name__ == '__main__':
 
+    #blueprints
+    from users.views import users_blueprint
+    app.register_blueprint(users_blueprint)
+
     login_manager = LoginManager()
     login_manager.login_view = 'users.login'
     login_manager.init_app(app)
