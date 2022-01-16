@@ -39,7 +39,7 @@ def internal_error(error):
 
 
 if __name__ == '__main__':
-   # BLUEPRINTS
+    # BLUEPRINTS
     from users.views import users_blueprint
     from quiz.views import quiz_blueprint
 
@@ -56,5 +56,6 @@ if __name__ == '__main__':
     @login_manager.user_loader
     def load_user(id):
         return User.query.get(int(id))
+
 
     app.run(debug=True)
