@@ -23,6 +23,22 @@ def index():
     return render_template('index.html')
 
 
+# ERROR PAGE VIEWS
+@app.errorhandler(403)
+def page_forbidden(error):
+    return render_template('403.html'), 403
+
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('404.html'), 404
+
+
+@app.errorhandler(500)
+def internal_error(error):
+    return render_template('500.html'), 500
+
+
 def register():
     return render_template('register.html')
 
@@ -32,9 +48,9 @@ def login():
 
 
 if __name__ == '__main__':
-
-    #blueprints
+    # blueprints
     from users.views import users_blueprint
+
     app.register_blueprint(users_blueprint)
 
     login_manager = LoginManager()
@@ -43,13 +59,15 @@ if __name__ == '__main__':
 
     from models import User
 
+
     @login_manager.user_loader
     def load_user(id):
         return User.query.get(int(id))
 
 
-    #blueprints
+    # blueprints
     from users.views import users_blueprint
+
     app.register_blueprint(users_blueprint)
     from quiz.views import quiz_blueprint
 
