@@ -9,5 +9,5 @@ newsapi-python
 flask-share
 bcrypt
 email_validator
-email_validator
 cryptography
+pytest
