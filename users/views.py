@@ -1,4 +1,4 @@
-from flask_login import login_user, logout_user, login_required
+from flask_login import login_user, logout_user, login_required, current_user
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from app import db
 from models import User
@@ -40,7 +40,13 @@ def register():
         db.session.add(new_user)
         db.session.commit()
 
-        return redirect(url_for('users.login'))
+        if current_user == 'user':
+            #TODO direct user to profile page
+
+            return redirect(url_for('quiz.quizzes'))
+
+        #TODO direct admin to admin page
+
     return render_template('register.html', form=form)
 
 
