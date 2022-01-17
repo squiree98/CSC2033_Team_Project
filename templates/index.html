@@ -1,61 +1,83 @@
 {% extends "base.html" %}
 
-{% block content %}
-    <body style="background-image: url(https://wallpapercave.com/wp/4BSuXqY.jpg); height: 100%; background-position: center; background-repeat: no-repeat; background-size: cover">
-        <!-- Navbar -->
-        <div class="<div class=position-absolute top-0 start-0 float-left" style="width:20%">
-            <div class="container p-3 my-3 bg-transparent border border-white offset-1">
-                <div class="text-left, text-white">
-                <!-- Content here -->
-                    {% block newsFeed %}
-                        <h2> Newsfeed</h2>
-                            <p></p>
-                    {% endblock %}
-                </div>
-            </div>
-        </div>
-
-        <div class="container p-3 my-3 bg-transparent border border-white offset-3">
-            <div class="text-center, text-white">
-            <!-- Content here -->
-                {% block climateAction %}
-                    <h2 style="color: black"> Climate Action </h2>
-                        <p>Text</p>
-                        <p>Text</p>
-                        <p>Text</p>
-                        <p>Text</p>
-                        <p>Text</p>
-                        <p>Text</p>
-                {% endblock %}
-            </div>
-        </div>
-
-        <div class="container p-3 my-3 bg-transparent border border-white offset-3">
-            <div class="text-center, text-white">
-            <!-- Content here -->
-                {% block howYouCanHelp %}
-                    <h2> How can you help</h2>
-                        <p>Text.</p>
-                {% endblock %}
-            </div>
-        </div>
-
-        <div class="container p-3 my-3 bg-transparent border border-white offset-3">
-            <div class="text-center, text-white">
-            <!-- Content here -->
-                {% block aboutUs %}
-                    <h2> About us </h2>
-                        <p>Text</p>
-                {% endblock %}
-            </div>
-        </div>
-
-        <!-- Javascript libraries -->
-        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    </body>
+{% block climateAction %}
+    <h2 style="color: black"> Climate Action </h2>
+        <h3>What is Climate Change?</h3>
+            <p>Climate change is a real and undeniable threat to human existence. It refers to long-term shifts
+            in temperatures and weather patterns. The world is now warming faster than at any point in recorded
+            history.</p>
+        <h3>What are the causes?</h3>
+            <p>Some shifts may be natural but since the 1800s, human activities have been the main driver of
+            climate change, primarily to the burning of fossil fuels.</p>
+            <p>Human causes include:</p>
+            <ul>
+                <li><b>Generating power</b> by burning fossil fuels such as coal, oil and natural gas</li>
+                <li><b>Manufacturing goods</b> that produce emissions from burning fossil fuels</li>
+                <li><b>Deforestation</b> - cutting down forests causes emissions as trees release the carbon they have
+                been storing</li>
+                <li><b>Transportation</b> - most cars, lorries and aircraft use fossil fuels</li>
+                <li><b>Food production</b> - food requires energy to produce whilst cattle release methane, a powerful
+                greenhouse gas</li>
+            </ul>
+        <h3>What are the effects?</h3>
+            <ul>
+            <li><b>Hotter temperatures</b> - this makes it difficult to work, farm food, preserve water and increases
+            the risk of wild fires - average global temperatures in 2020 were 0.98 degrees celcius warmer
+            than 20th century average and July 2021 was the hottest month ever recorded</li>
+            <li><b>More severe storms</b> - causing flooding and landslides, destroying homes and farmland</li>
+            <li><b>Increased drought</b> - water becomes scarcer and deserts expand</li>
+            <li><b>Rising oceans</b> - as oceans absorb heat and ice sheets melt, they rise causing flooding and
+            destroying low lying land and islands - shrinking ice sheets, data from NASA shows that Greenland
+            lost an average of 279 billion tonnes of ice per year between 1993 and 2019 while Antarctica
+            lost 148 billion tonnes per year</li>
+            <li><b>Loss of species</b> - climate change poses risks to the survival of many species, as their natural
+            habitat changes or disappears</li>
+            <li><b>Food shortages</b> - climate change will make it more difficult to farm food in certain areas</li>
+            <li><b>Health risks</b> - rising temperatures can lead to an increase in diseases and food shortages can
+            lead to poor nutrition</li>
+            <li><b>Migration</b> - because certain areas will become uninhabitable - 800 million people, 11% of the
+            world's population is currently vulnerable to climate change impacts such as droughts, floods and
+            heatwaves</li>
+            </ul>
+        <h3>Where can I learn more?</h3>
+            <p><b>Books</b> - <a href="https://www.un.org/sustainabledevelopment/sdgbookclub-13-archive/">Reading list</a></p>
+            <p><b>Films</b> - Don't Look Up, The Day After Tomorrow</p>
+            <p><b>Websites</b> - <a href="https://www.globalgoals.org/13-climate-action">Global Goals</a>,
+             <a href="https://sdgs.un.org/topics/climate-change">United Nations</a></p>
 {% endblock %}
 
+{% block howYouCanHelp %}
+    <h2> How can you help</h2>
+        <p>Small lifestyle changes can help such as:</p>
+        <ul>
+        <li>Recycling paper, glass, metal, plastic and old electronics</li>
+        <li>Bike, walk or take public transport</li>
+        <li>Eat less meat as the meat production industry has a huge impact on the environment</li>
+        <li>Choose reusable products such as an eco-bag for shopping</li>
+        </ul>
+        <p>Donate to a charity that supports actions to limit climate change such as Clean Air Task Force,
+         Carbon180 and Evergreen Collaborative which can be found <a href="https://www.vox.com/future-perfect/2019/12/2/20976180/climate-change-best-charities-effective-philanthropy">here</a>.</p>
+{% endblock %}
 
+{% block aboutUs %}
+    <h2> About us</h2>
+        <p>We are a group of Newcastle University Computer Science students who are passionate about
+        taking action to reduce climate change. We have created this website to help educate people about
+        the causes and effects of climate change and actions that they can take to reduce its impact.</p>
+{% endblock %}
+
+{% block newsFeed %}
+    <h2> Newsfeed</h2>
+    <div class="container">
+
+    {% for new, des, url, i in context %}
+
+    <a href="{{ url }}"><img src="{{ i }}" width="200" height=auto alt=""></a>
+    <h5><a href="{{ url }}">{{ new }}</a> </h5>
+    {{ des }}
+    <p>‏‏‎ ‎</p>
+    {% endfor %}
+
+</div>
+{% endblock %}
 

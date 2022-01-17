@@ -5,6 +5,7 @@ Flask-Login
 pymysql
 Flask~=2.0.2
 SQLAlchemy~=1.4.27
+newsapi-python
 flask-share
 bcrypt
 email_validator
