@@ -66,7 +66,7 @@ def login():
         user.last_logged_in = user.currently_logged_in
         db.session.add(user)
         db.session.commit()
-        return render_template('index.html')
+        return render_template('profile.html')
     return render_template('login.html', form=form)
 
 

@@ -5,28 +5,26 @@
         <a href="{{ url_for('quiz.create_quiz') }}" class="btn btn-success">Create Quiz</a>
     </div>
 
-    <div class="rows">
-    {% for quiz in quizzes %}
-        <div class="card" style="width: 18rem; margin: 20px">
-            <div class="container">
-                <a href="#" class="badge badge-success badge-pill">{{ quiz.age_group }}</a>
-            </div>
-            <div class="card-body">
-                <h5 class="card-title">{{ quiz.name }}</h5>
-                <p class="card-text"> Leaderboard</p>
-                <ol class="card-text">
-                    {% for leaderboard in quiz.leaderboard %}
-                        <li>
-                            <p>{{ leaderboard }}</p>
-                        </li>
-                    {% endfor %}
-                </ol>
-            </div>
-        <div class="card-footer text-muted"> Number of plays:
-            <span class="badge">{{ quiz.number_of_plays }}</span>
-            <a href="{{ url_for('quiz.delete_quiz', id=quiz.id) }}" class="btn btn-success">Delete Quiz</a>
+    <div class="container">
+
+
+        <div class="rows">
+            {% for quiz in quizzes %}
+                <div class="col-sm-6">
+                    <div class="card" style="width: 23rem; margin: 20px">
+                        <div class="container">
+                            <a href="#" class="badge badge-success badge-pill">{{ quiz.age_group }}</a>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ quiz.name }}</h5>
+                        </div>
+                    <div class="card-footer text-muted"> Number of plays:
+                        <span class="badge">{{ quiz.number_of_plays }}</span>
+                        <a href="{{ url_for('quiz.delete_quiz', id=quiz.id) }}" class="btn btn-success">Delete Quiz</a>
+                    </div>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
-    </div>
-    {% endfor %}
     </div>
 {% endblock %}
