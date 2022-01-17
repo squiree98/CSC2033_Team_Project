@@ -6,23 +6,48 @@
     </div>
 
     <div class="container p-3 my-3 bg-transparent border border-success">
-        <h4 class="text-left"> Users currently online
+        <h4 class="text-left"> All registered users
         <div class="text-right">
-            <a class="btn btn-primary btn-lg" href="#" role="button">View</a>
+            <a class="btn btn-primary btn-lg" href="{{ url_for('admin.view_users') }}" role="button">View</a>
+            {% for user in users %}
+                <div class="container text-dark text-left">
+                    <h5>{{ user.username }} Email: {{ user.email }}</h5>
+                </div>
+            {% endfor %}
         </div>
         </h4>
     </div>
     <div class="container p-3 my-3 bg-transparent border border-success">
         <h4 class="text-left"> Quizzes flagged for review
         <div class="text-right">
-            <a class="btn btn-primary btn-lg" href="#" role="button">View</a>
+            <a class="btn btn-primary btn-lg" href="{{ url_for('admin.view_reported_quizzes') }}" role="button">View</a>
+            {% for quiz in quizzes %}
+                <div class="container">
+                    <div class="card-body text-left border border-dark">
+                        <h5 class="card-title">{{ quiz.name }}
+                        </h5>
+                        <div class="card-footer text-muted"> Number of reports:
+                                <span class="badge">{{ quiz.number_of_reports }}
+                                </span>
+                        </div>
+                        <div class="btn btn-danger text-right">Delete Quiz
+                            <a href="{{ url_for('quiz.delete_quiz', id=quiz.id) }}"></a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
         </h4>
     </div>
     <div class="container p-3 my-3 bg-transparent border border-success">
         <h4 class="text-left"> Logs
         <div class="text-right">
-            <a class="btn btn-primary btn-lg" href="#" role="button">View</a>
+            <a class="btn btn-primary btn-lg" href="{{ url_for('admin.logs') }}" role="button">View</a>
+            {% for log in logs %}
+                <div class="container text-dark text-left">
+                    <h5>{{ log }}</h5>
+                </div>
+            {% endfor %}
         </div>
         </h4>
     </div>

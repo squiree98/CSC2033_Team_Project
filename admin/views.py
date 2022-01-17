@@ -1,7 +1,9 @@
 from flask_login import login_user, logout_user, login_required, current_user
 from flask import Blueprint, render_template, request, flash, redirect, url_for
+from sqlalchemy import desc
+
 from app import db, requires_roles
-from models import User
+from models import User, Quiz
 from users.forms import RegisterForm, LoginForm
 from datetime import datetime
 
@@ -15,26 +17,26 @@ def admin():
     return render_template("admin.html")
 
 
-@admin_blueprint.route('/view_reported_quizzes',  methods=['GET', 'POST'])
+@admin_blueprint.route('/view_reported_quizzes')
 @login_required
 @requires_roles('admin')
 def view_reported_quizzes():
-    return render_template("admin.html")
+    reported_quizzes = Quiz.query.filter(Quiz.user_id != current_user.id, Quiz.number_of_reports > 0).order_by(desc('number_of_reports')).all()
+    return render_template('admin.html', quizzes=reported_quizzes)
 
 
-@admin_blueprint.route('/view_users', methods=['POST'])
-@login_required
+@admin_blueprint.route('/view_users', methods=['GET', 'POST'])
 @requires_roles('admin')
 def view_users():
-    return render_template('admin.html', current_users=User.query.filter_by(role='user').all())
+    current_users = User.query.filter_by(role='user').all()
+    return render_template('admin.html', users=current_users)
 
 
-@admin_blueprint.route('/logs', methods=['POST'])
-@login_required
+@admin_blueprint.route('/logs', methods=['GET', 'POST'])
 @requires_roles('admin')
 def logs():
-    with open("lottery.log", "r") as f:
+    with open("admin.log", "r") as f:
         content = f.read().splitlines()[-10:]
         content.reverse()
 
-    return render_template('admin.html', logs=content, name=current_user.firstname)
+    return render_template('admin.html', logs=content)
