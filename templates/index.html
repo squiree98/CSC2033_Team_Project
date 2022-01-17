@@ -1,8 +1,36 @@
+
 {% extends "base.html" %}
 
-{% block climateAction %}
-    <h2 style="color: black"> Climate Action </h2>
-        <h3>What is Climate Change?</h3>
+{% block content %}
+    <body style="background-image: url(https://wallpapercave.com/wp/4BSuXqY.jpg); height: 100%; background-position: center; background-repeat: no-repeat; background-size: cover">
+        <!-- Navbar -->
+        <div class="<div class=position-absolute top-0 start-0 float-left" style="width:20%">
+            <div class="container p-3 my-3 bg-transparent border border-white offset-1">
+                <div class="text-left, text-white">
+                <!-- Content here -->
+                    {% block newsFeed %}
+                        <h2> Newsfeed</h2>
+                        <div class="container">
+
+                        {% for new, des, url, i in context %}
+
+                        <a href="{{ url }}"><img src="{{ i }}" width="200" height=auto alt=""></a>
+                        <h5><a href="{{ url }}">{{ new }}</a> </h5>
+                        {{ des }}
+                        <p>‏‏‎ ‎</p>
+                        {% endfor %}
+                        </div>
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+
+        <div class="container p-3 my-3 bg-transparent border border-white offset-3">
+            <div class="text-center, text-white">
+            <!-- Content here -->
+                {% block climateAction %}
+                    <h2 style="color: black"> Climate Action </h2>
+                        h3>What is Climate Change?</h3>
             <p>Climate change is a real and undeniable threat to human existence. It refers to long-term shifts
             in temperatures and weather patterns. The world is now warming faster than at any point in recorded
             history.</p>
@@ -44,40 +72,44 @@
             <p><b>Films</b> - Don't Look Up, The Day After Tomorrow</p>
             <p><b>Websites</b> - <a href="https://www.globalgoals.org/13-climate-action">Global Goals</a>,
              <a href="https://sdgs.un.org/topics/climate-change">United Nations</a></p>
-{% endblock %}
+                {% endblock %}
+            </div>
+        </div>
 
-{% block howYouCanHelp %}
-    <h2> How can you help</h2>
-        <p>Small lifestyle changes can help such as:</p>
-        <ul>
-        <li>Recycling paper, glass, metal, plastic and old electronics</li>
-        <li>Bike, walk or take public transport</li>
-        <li>Eat less meat as the meat production industry has a huge impact on the environment</li>
-        <li>Choose reusable products such as an eco-bag for shopping</li>
-        </ul>
-        <p>Donate to a charity that supports actions to limit climate change such as Clean Air Task Force,
-         Carbon180 and Evergreen Collaborative which can be found <a href="https://www.vox.com/future-perfect/2019/12/2/20976180/climate-change-best-charities-effective-philanthropy">here</a>.</p>
-{% endblock %}
+        <div class="container p-3 my-3 bg-transparent border border-white offset-3">
+            <div class="text-center, text-white">
+            <!-- Content here -->
+                {% block howYouCanHelp %}
+                    <h2> How can you help</h2>
+                        <p>Small lifestyle changes can help such as:</p>
+                        <ul>
+                        <li>Recycling paper, glass, metal, plastic and old electronics</li>
+                        <li>Bike, walk or take public transport</li>
+                        <li>Eat less meat as the meat production industry has a huge impact on the environment</li>
+                        <li>Choose reusable products such as an eco-bag for shopping</li>
+                        </ul>
+                        <p>Donate to a charity that supports actions to limit climate change such as Clean Air Task Force,
+                        Carbon180 and Evergreen Collaborative which can be found <a href="https://www.vox.com/future-perfect/2019/12/2/20976180/climate-change-best-charities-effective-philanthropy">here</a>.</p>
+                {% endblock %}
+            </div>
+        </div>
 
-{% block aboutUs %}
-    <h2> About us</h2>
-        <p>We are a group of Newcastle University Computer Science students who are passionate about
-        taking action to reduce climate change. We have created this website to help educate people about
-        the causes and effects of climate change and actions that they can take to reduce its impact.</p>
-{% endblock %}
+        <div class="container p-3 my-3 bg-transparent border border-white offset-3">
+            <div class="text-center, text-white">
+            <!-- Content here -->
+                {% block aboutUs %}
+                    <h2> About us</h2>
+                        <p>We are a group of Newcastle University Computer Science students who are passionate about
+                        taking action to reduce climate change. We have created this website to help educate people about
+                        the causes and effects of climate change and actions that they can take to reduce its impact.</p>
+                {% endblock %}
+            </div>
+        </div>
 
-{% block newsFeed %}
-    <h2> Newsfeed</h2>
-    <div class="container">
-
-    {% for new, des, url, i in context %}
-
-    <a href="{{ url }}"><img src="{{ i }}" width="200" height=auto alt=""></a>
-    <h5><a href="{{ url }}">{{ new }}</a> </h5>
-    {{ des }}
-    <p>‏‏‎ ‎</p>
-    {% endfor %}
-
-</div>
+        <!-- Javascript libraries -->
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    </body>
 {% endblock %}
 
