@@ -2,7 +2,7 @@
 
 {% block content %}
     {{ share.load() }}
-    <div class="card text-center" style="margin: 20px">
+    <div class="card text-center"  style="margin: 20px">
         <div class="card-body">
             {% if score > 7 %}
             <h5 class="card-title">Well done!</h5>
@@ -14,16 +14,23 @@
 
             <p class="card-text">Your result: </p>
             <p class="card-text" > <b> {{ score }} out of 10  </b></p>
+
+            <!-- Leader board -->
+            <div class="container">
+                <p class="card-text"> <br> <h3> Leader board:</h3></p>
+                    <ol class="card-text-center">
+                        {% for leaderboard in quiz.leaderboard %}
+                            <li>
+                                <p>{{ leaderboard }}</p>
+                            </li>
+                        {% endfor %}
+                    </ol>
+            </div>
+
             {{ share.create(title='Share result with: ', sites='facebook, twitter, google, linkedin') }}
 
-            {% for leaderboard in quiz.leaderboard %}
-                <li>
-                    <p>{{ leaderboard }}</p>
-                </li>
-            {% endfor %}
-
             <a href="{{ url_for('quiz.quizzes')}}" class="btn btn-success btn-lg" >Return</a>
-            <a href="{{ url_for('quiz.quiz_setup', id=quiz_id) }}" class="btn btn-success btn-lg">Retake Quiz</a>
+            <a href="{{ url_for('quiz.quiz_setup', id=quiz.id) }}" class="btn btn-success btn-lg">Retake Quiz</a>
       </div>
     </div>
 {% endblock %}

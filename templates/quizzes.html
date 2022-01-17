@@ -76,14 +76,7 @@
                         </div>
                         <div class="card-body">
                             <h5 class="card-title">{{ quiz.name }}</h5>
-                            <p class="card-text"> Leaderboard</p>
-                            <ol class="card-text">
-                                {% for leaderboard in quiz.leaderboard %}
-                                    <li>
-                                        <p>{{ leaderboard }}</p>
-                                    </li>
-                                {% endfor %}
-                            </ol>
+
                         </div>
 
                         {% if current_user.role=='user' %}

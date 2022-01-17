@@ -25,12 +25,7 @@ def quizzes():
     # get all quizzes that have not been created by currently logged-in user
     # and display the most recently created quizzes first
     view_quizzes = Quiz.query.filter(Quiz.user_id != current_user.id).order_by(desc('id')).all()
-    # get leaderboards for quizzes leaderboard
-    for x in range(len(view_quizzes)):
-        # generate leaderboard for quiz
-        user_leaderboard = get_leaderboard(view_quizzes[x].id)
-        # add leaderboard to quiz's leaderboard value so it can be displayed in html
-        view_quizzes[x].leaderboard = user_leaderboard
+
     return render_template('quizzes.html', form=search, quizzes=view_quizzes, filtered=False)
 
 
@@ -92,6 +87,14 @@ def search_quizzes(search):
 
         # if user has created quizzes, display their quizzes
         if quizzes:
+
+            # get leaderboard
+            for x in range(len(quizzes)):
+                # generate leaderboard for quiz
+                user_leaderboard = get_leaderboard(quizzes[x].id)
+                # add leaderboard to quiz's leaderboard value so it can be displayed in html
+                quizzes[x].leaderboard = user_leaderboard
+
             return render_template('quizzes.html', quizzes=quizzes, filtered=True)
 
         # display message if no quizzes have been created by user
@@ -130,6 +133,7 @@ def filter_by_age_group(age_group):
     """
 
     filtered_quizzes = Quiz.query.filter(Quiz.user_id != current_user.id, Quiz.age_group == age_group)
+
     return render_template('quizzes.html', quizzes=filtered_quizzes, filtered=True)
 
 
@@ -145,6 +149,7 @@ def filter_by_reported():
     """
 
     reported_quizzes = Quiz.query.filter(Quiz.user_id != current_user.id, Quiz.number_of_reports > 0).order_by(desc('number_of_reports')).all()
+
     return render_template('quizzes.html', quizzes=reported_quizzes, filtered=True)
 
 
@@ -230,10 +235,12 @@ def take_quiz():
         quiz = Quiz.query.filter_by(id=session.get('quiz_id')).first()
         # update number of plays for quiz (increment number of plays by 1)
         quiz.update_number_of_plays()
+
+        # get leaderboard for quiz
         leaderboard = get_leaderboard(quiz.id)
         quiz.leaderboard = leaderboard
 
-        return render_template("display_results.html", score=total_score_value, quiz_id=session.get('quiz_id'))
+        return render_template("display_results.html", score=total_score_value, quiz=quiz)
 
 
 @quiz_blueprint.route('/<int:user_answer>/check_answer')
@@ -314,6 +321,7 @@ def create_question():
             new_quiz = Quiz(name=db_data[0][0], age_group=db_data[0][1], user_id=db_data[0][2])
             db.session.add(new_quiz)
             db.session.commit()
+
             # add questions to db
             # get user id from the last quiz the user created, the quiz above
             quiz_id = Quiz.query.filter_by(user_id=current_user.id).order_by(desc('id')).first()
