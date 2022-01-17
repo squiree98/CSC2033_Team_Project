@@ -25,8 +25,43 @@ def quizzes():
     # get all quizzes that have not been created by currently logged-in user
     # and display the most recently created quizzes first
     view_quizzes = Quiz.query.filter(Quiz.user_id != current_user.id).order_by(desc('id')).all()
-
+    # get leaderboards for quizzes leaderboard
+    for x in range(len(view_quizzes)):
+        # generate leaderboard for quiz
+        user_leaderboard = get_leaderboard(view_quizzes[x].id)
+        # add leaderboard to quiz's leaderboard value so it can be displayed in html
+        view_quizzes[x].leaderboard = user_leaderboard
     return render_template('quizzes.html', form=search, quizzes=view_quizzes, filtered=False)
+
+
+def get_leaderboard(quiz_id):
+    # get all scores from scores table from highest to lowest
+    scores = Score.query.filter_by(quiz_id=quiz_id).order_by(desc('score_value')).all()
+    # create leaderboard to get score values
+    trial_leaderboard = []
+    # create leaderboard to organise values
+    leaderboard = []
+    # add scores
+    if len(scores) == 0:
+        trial_leaderboard = ["-", "-", "-"]
+    if len(scores) == 1:
+        trial_leaderboard = [scores[0], "-", "-"]
+    if len(scores) == 2:
+        trial_leaderboard = [scores[0], scores[1], "-"]
+    if len(scores) >= 3:
+        trial_leaderboard = [scores[0], scores[1], scores[2]]
+    # for each score add a user
+    for x in range(3):
+        # if there's no score there is no user
+        if trial_leaderboard[x] == "-":
+            # convert to string statement
+            leaderboard.append("Name: - Score: -")
+        # if there's a score then find user that had score with scores user_id
+        else:
+            user = User.query.filter_by(id=trial_leaderboard[x].user_id).first()
+            # convert to string statement
+            leaderboard.append("Name: " + user.username + "Score: " + str(trial_leaderboard[x].score_value))
+    return leaderboard
 
 
 @quiz_blueprint.route("/search_quizzes")

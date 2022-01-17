@@ -137,6 +137,7 @@ class Quiz(db.Model):
         self.age_group = age_group
         self.number_of_plays = 0
         self.number_of_reports = 0
+        self.leaderboard = []
 
     def update_number_of_plays(self):
         """

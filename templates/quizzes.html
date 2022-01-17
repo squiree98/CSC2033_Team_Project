@@ -78,15 +78,11 @@
                             <h5 class="card-title">{{ quiz.name }}</h5>
                             <p class="card-text"> Leaderboard</p>
                             <ol class="card-text">
-                                <li>
-                                    <p>Name </p>
-                                </li>
-                                <li>
-                                    <p>Name</p>
-                                </li>
-                                <li>
-                                    <p>Name </p>
-                                </li>
+                                {% for leaderboard in quiz.leaderboard %}
+                                    <li>
+                                        <p>{{ leaderboard }}</p>
+                                    </li>
+                                {% endfor %}
                             </ol>
                         </div>
 
