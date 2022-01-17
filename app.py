@@ -76,9 +76,11 @@ if __name__ == '__main__':
     # BLUEPRINTS
     from users.views import users_blueprint
     from quiz.views import quiz_blueprint
+    from admin.views import admin_blueprint
 
     app.register_blueprint(users_blueprint)
     app.register_blueprint(quiz_blueprint)
+    app.register_blueprint(admin_blueprint)
 
     # LOGIN MANAGER
     login_manager = LoginManager()

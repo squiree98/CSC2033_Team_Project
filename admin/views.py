@@ -18,7 +18,7 @@ def admin():
 @admin_blueprint.route('/view_reported_quizzes',  methods=['GET', 'POST'])
 @login_required
 @requires_roles('Admin')
-def admin():
+def view_reported_quizzes():
     return render_template("admin.html")
 
 

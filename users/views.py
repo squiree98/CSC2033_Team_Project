@@ -65,7 +65,7 @@ def login():
         if current_user.role == 'user':
             return redirect(url_for('users.profile'))
         else:
-            return redirect(url_for('quiz.quizzes'))
+            return redirect(url_for('admin.admin'))
 
     return render_template('login.html', form=form)
 
