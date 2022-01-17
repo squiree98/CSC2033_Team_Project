@@ -1,15 +1,16 @@
 {% extends "base.html" %}
 
 {% block content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>placeholder-You are logged in!</title>
-</head>
-<body>
-placeholder-You are logged in!
-</body>
-</html>
+    {{ share.load() }}
+    <div class="card text-center"  style="margin: 20px">
+        <div class="card-body">
+            <h5 class="card-title">My Profile</h5>
+
+            <p class="card-text">Email address: {{ current_user.email }}</p>
+            <p class="card-text"> Username: {{ current_user.username }}</p>
+            <p class="card-text">Total Quiz Score: {{ score }}</p>
+      </div>
+    </div>
+
 
 {% endblock %}

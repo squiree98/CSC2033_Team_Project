@@ -1,7 +1,7 @@
 from flask_login import login_user, logout_user, login_required, current_user
 from flask import Blueprint, render_template, request, flash, redirect, url_for
-from app import db
-from models import User
+from app import db, requires_roles
+from models import User, Score
 from users.forms import RegisterForm, LoginForm
 from datetime import datetime
 import bcrypt
@@ -63,6 +63,20 @@ def login():
         db.session.commit()
         return render_template('profile.html')
     return render_template('login.html', form=form)
+
+
+@users_blueprint.route('/profile')
+@login_required
+@requires_roles('user')
+def profile():
+
+    # get score objects for currently logged-in user
+    scores = Score.query.filter_by(user_id=current_user.id).all()
+    total_score = 0
+
+    for score in scores:
+        total_score += score.score_value
+    return render_template('profile.html', score=total_score)
 
 
 @users_blueprint.route('/logout')
