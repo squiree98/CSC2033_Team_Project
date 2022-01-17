@@ -61,7 +61,12 @@ def login():
         user.last_logged_in = user.currently_logged_in
         db.session.add(user)
         db.session.commit()
-        return render_template('profile.html')
+
+        if current_user.role == 'user':
+            return redirect(url_for('users.profile'))
+        else:
+            return redirect(url_for('quiz.quizzes'))
+
     return render_template('login.html', form=form)
 
 
@@ -76,6 +81,7 @@ def profile():
 
     for score in scores:
         total_score += score.score_value
+
     return render_template('profile.html', score=total_score)
 
 
