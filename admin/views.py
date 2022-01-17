@@ -10,21 +10,21 @@ admin_blueprint = Blueprint('admin', __name__, template_folder='templates')
 
 @admin_blueprint.route('/admin')
 @login_required
-@requires_roles('Admin')
+@requires_roles('admin')
 def admin():
     return render_template("admin.html")
 
 
 @admin_blueprint.route('/view_reported_quizzes',  methods=['GET', 'POST'])
 @login_required
-@requires_roles('Admin')
+@requires_roles('admin')
 def view_reported_quizzes():
     return render_template("admin.html")
 
 
 @admin_blueprint.route('/view_users', methods=['POST'])
 @login_required
-@requires_roles('Admin')
+@requires_roles('admin')
 def view_users():
     return render_template('admin.html', current_users=User.query.filter_by(role='user').all())
 
