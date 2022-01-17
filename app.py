@@ -1,6 +1,7 @@
 from functools import wraps
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
+from newsapi import NewsApiClient
 from flask_login import LoginManager, current_user
 from flask_share import Share
 
@@ -32,7 +33,27 @@ def requires_roles(*roles):
 # HOME PAGE VIEW
 @app.route('/')
 def index():
-    return render_template('index.html')
+    newsapi = NewsApiClient(api_key="c56ddcf9b5104c0289b116ed7aac8d16")
+    topheadlines = newsapi.get_everything(sources="bbc-news", q="climate change")
+
+    articles = topheadlines['articles']
+
+    desc = []
+    news = []
+    img = []
+    url = []
+
+    for i in range(len(articles)):
+        myarticles = articles[i]
+
+        news.append(myarticles['title'])
+        desc.append(myarticles['description'])
+        url.append(myarticles['url'])
+        img.append(myarticles['urlToImage'])
+
+    mylist = zip(news, desc, url, img)
+
+    return render_template('index.html', context=mylist)
 
 
 # ERROR PAGE VIEWS
