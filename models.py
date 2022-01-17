@@ -20,6 +20,8 @@ def init_db():
     """
 
     # delete database tables (if they exist)
+
+    new_user = User(username="Admin", email="Admin@email.com", password="AdminPassword", role="Admin", subscribed=False)
     db.drop_all()
     # create database tables
     db.create_all()
@@ -207,3 +209,4 @@ class QuestionAndAnswers(db.Model):
         self.option_3 = option_3
         self.option_4 = option_4
         self.answer = answer
+
