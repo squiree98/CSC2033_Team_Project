@@ -60,7 +60,7 @@ def get_leaderboard(quiz_id):
         else:
             user = User.query.filter_by(id=trial_leaderboard[x].user_id).first()
             # convert to string statement
-            leaderboard.append("Name: " + user.username + "Score: " + str(trial_leaderboard[x].score_value))
+            leaderboard.append("Name: " + user.username + "  Score: " + str(trial_leaderboard[x].score_value))
     return leaderboard
 
 
@@ -230,6 +230,8 @@ def take_quiz():
         quiz = Quiz.query.filter_by(id=session.get('quiz_id')).first()
         # update number of plays for quiz (increment number of plays by 1)
         quiz.update_number_of_plays()
+        leaderboard = get_leaderboard(quiz.id)
+        quiz.leaderboard = leaderboard
 
         return render_template("display_results.html", score=total_score_value, quiz_id=session.get('quiz_id'))
 
@@ -261,7 +263,16 @@ def check_answer(user_answer):
 @login_required
 @requires_roles('user')
 def my_quizzes():
-    return render_template('my_quizzes.html')
+    # get all quizzes that have not been created by currently logged-in user
+    # and display the most recently created quizzes first
+    view_quizzes = Quiz.query.filter(Quiz.user_id == current_user.id).order_by(desc('id')).all()
+    # get leaderboards for quizzes leaderboard
+    for x in range(len(view_quizzes)):
+        # generate leaderboard for quiz
+        user_leaderboard = get_leaderboard(view_quizzes[x].id)
+        # add leaderboard to quiz's leaderboard value so it can be displayed in html
+        view_quizzes[x].leaderboard = user_leaderboard
+    return render_template('quizzes.html', quizzes=view_quizzes)
 
 
 @quiz_blueprint.route('/create_quiz', methods=['GET', 'POST'])
@@ -273,10 +284,7 @@ def create_quiz():
     # if the form is accepted
     if form.validate_on_submit():
         # create version of quiz
-        # ToDo: Replace number with current_user_id
-        user_id = 4
-        # user_id = current_user.id
-        new_quiz = [form.name.data, form.age_range.data, user_id]
+        new_quiz = [form.name.data, form.age_range.data, current_user.id]
         # create session and add data to session
         session['db_data'] = [new_quiz]
         # load the create question page
@@ -295,7 +303,6 @@ def create_question():
     db_data = session.get('db_data')
     if form.validate_on_submit():
         # get session to add data
-        print(db_data)
         # if form is valid add it's details to session
         db_data.append([form.question.data, form.option_1.data, form.option_2.data, form.option_3.data,
                         form.option_4.data, form.answer.data])
@@ -308,19 +315,23 @@ def create_question():
             db.session.commit()
             # add questions to db
             # ToDo: query database for quiz ID and replace quiz_id below with it
-            quiz_id = 10
+            # get user id from the last quiz the user created, the quiz above
+            quiz_id = Quiz.query.filter_by(user_id=current_user.id).order_by(desc('id')).first()
             # quiz_id = Quiz.query.filter_by(id=current_user.id)
             # loop for every question
             for x in range(10):
                 # convert session values into models object
                 # x+1 because first value in session is the quiz not a question
-                new_question = QuestionAndAnswers(question=db_data[x + 1][0], option_1=db_data[x + 1][1],
-                                                  option_2=db_data[x + 1][2], option_3=db_data[x + 1][3],
-                                                  option_4=db_data[x + 1][4], answer=db_data[x + 1][5], quiz_id=quiz_id)
-                # add models object to database
+                new_question = QuestionAndAnswers(quiz_id=quiz_id.id, question=db_data[x + 1][0],
+                                                  option_1=db_data[x + 1][1], option_2=db_data[x + 1][2],
+                                                  option_3=db_data[x + 1][3], option_4=db_data[x + 1][4],
+                                                  answer=db_data[x + 1][5])
+                # add models object to database session
                 db.session.add(new_question)
+                # commit all models to db
                 db.session.commit()
-                return render_template('index.html')
+
+            return render_template('my_quizzes.html')
     return render_template('create_question.html', form=form, question_num=len(db_data))
 
 

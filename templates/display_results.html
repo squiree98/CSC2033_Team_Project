@@ -16,6 +16,12 @@
             <p class="card-text" > <b> {{ score }} out of 10  </b></p>
             {{ share.create(title='Share result with: ', sites='facebook, twitter, google, linkedin') }}
 
+            {% for leaderboard in quiz.leaderboard %}
+                <li>
+                    <p>{{ leaderboard }}</p>
+                </li>
+            {% endfor %}
+
             <a href="{{ url_for('quiz.quizzes')}}" class="btn btn-success btn-lg" >Return</a>
             <a href="{{ url_for('quiz.quiz_setup', id=quiz_id) }}" class="btn btn-success btn-lg">Retake Quiz</a>
       </div>
