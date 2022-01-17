@@ -40,12 +40,7 @@ def register():
         db.session.add(new_user)
         db.session.commit()
 
-        if current_user == 'user':
-            #TODO direct user to profile page
-
-            return redirect(url_for('quiz.quizzes'))
-
-        #TODO direct admin to admin page
+        return redirect(url_for("users.login"))
 
     return render_template('register.html', form=form)
 
