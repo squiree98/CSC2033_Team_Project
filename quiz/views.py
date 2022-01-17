@@ -241,7 +241,7 @@ def create_quiz():
         # ToDo: Replace number with current_user_id
         user_id = 4
         # user_id = current_user.id
-        new_quiz = [form.name.data, form.age_range.data, user_id]
+        new_quiz = [form.name.data, form.age_group.data, user_id]
         # create session and add data to session
         session['db_data'] = [new_quiz]
         # load the create question page

@@ -10,3 +10,4 @@ bcrypt
 email_validator
 email_validator
 cryptography
+pytest

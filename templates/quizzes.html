@@ -27,7 +27,9 @@
         <!-- Search Form -->
         <form class="d-flex" style="margin: 20px"method="POST">
             <div class="field">
-                {{ form.csrf_token() }}
+                {% if 'csrf_token' in form %}
+                    {{form.csrf_token}}
+                {% endif %}
                 </div>
                 <div class="field">
                     {{ form.email(class="form-control me-2", placeholder="Email Address") }}
