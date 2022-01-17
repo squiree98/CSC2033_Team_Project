@@ -52,18 +52,104 @@ def add_sample_data():
 
     # QUIZZES
     # created by user1
-    quiz1 = Quiz(user1.id, "What is climate change?", "5-12")
-    # TODO: questions and answers for quiz1
+    quiz1 = Quiz(user1.id, "What is global warming?", "5-12")
 
-    quiz2 = Quiz(user1.id, "?", "13-17")
-    # TODO: questions and answers for quiz1
+    quiz2 = Quiz(user1.id, "Climate Action", "18+")
 
-
-    quiz3 = Quiz(user1.id, "?", "18+")
-    # TODO: questions and answers for quiz1
+    quiz3 = Quiz(user1.id, "Greenhouse Gases", "13-17")
 
     db.session.add_all([quiz1, quiz2, quiz3])  # add quizzes to database
     db.session.commit()  # commit changes
+
+    # QUESTIONANDANSWER
+    # for quiz 1
+    quiz1_question_and_answer_1 = QuestionAndAnswers(1, "Question 1", "A", "B", "C", "D", 1)
+    quiz1_question_and_answer_2 = QuestionAndAnswers(1, "Question 2", "A", "B", "C", "D", 1)
+    quiz1_question_and_answer_3 = QuestionAndAnswers(1, "Question 3", "A", "B", "C", "D", 1)
+    quiz1_question_and_answer_4 = QuestionAndAnswers(1, "Question 4", "A", "B", "C", "D", 1)
+    quiz1_question_and_answer_5 = QuestionAndAnswers(1, "Question 5", "A", "B", "C", "D", 1)
+    quiz1_question_and_answer_6 = QuestionAndAnswers(1, "Question 6", "A", "B", "C", "D", 1)
+    quiz1_question_and_answer_7 = QuestionAndAnswers(1, "Question 7", "A", "B", "C", "D", 1)
+    quiz1_question_and_answer_8 = QuestionAndAnswers(1, "Question 8", "A", "B", "C", "D", 1)
+    quiz1_question_and_answer_9 = QuestionAndAnswers(1, "Question 9", "A", "B", "C", "D", 1)
+    quiz1_question_and_answer_10 = QuestionAndAnswers(1, "Question 10", "A", "B", "C", "D", 1)
+
+    # for quiz 2
+    quiz2_question_and_answer_1 = QuestionAndAnswers(2, "Question 1", "A", "B", "C", "D", 1)
+    quiz2_question_and_answer_2 = QuestionAndAnswers(2, "Question 2", "A", "B", "C", "D", 1)
+    quiz2_question_and_answer_3 = QuestionAndAnswers(2, "Question 3", "A", "B", "C", "D", 1)
+    quiz2_question_and_answer_4 = QuestionAndAnswers(2, "Question 4", "A", "B", "C", "D", 1)
+    quiz2_question_and_answer_5 = QuestionAndAnswers(2, "Question 5", "A", "B", "C", "D", 1)
+    quiz2_question_and_answer_6 = QuestionAndAnswers(2, "Question 6", "A", "B", "C", "D", 1)
+    quiz2_question_and_answer_7 = QuestionAndAnswers(2, "Question 7", "A", "B", "C", "D", 1)
+    quiz2_question_and_answer_8 = QuestionAndAnswers(2, "Question 8", "A", "B", "C", "D", 1)
+    quiz2_question_and_answer_9 = QuestionAndAnswers(2, "Question 9", "A", "B", "C", "D", 1)
+    quiz2_question_and_answer_10 = QuestionAndAnswers(2, "Question 10", "A", "B", "C", "D", 1)
+
+    # for quiz 3
+    quiz3_question_and_answer_1 = QuestionAndAnswers(3, "What is the greenhouse effect?",
+                                                     "Certain gases in the atmosphere trap heat and warm the Earth",
+                                                     "Life on Earth 'exhales' gas that warms up the atmosphere",
+                                                     "The tilt of the Earth changes the amount of solar energy the Earth receives",
+                                                     "The Sun is putting out more radiant energy over time", 1)
+    quiz3_question_and_answer_2 = QuestionAndAnswers(3, "The greenhouse effect occurs because gases in the atmosphere trap energy from the sun. "
+                                                        "Which of the following is not greenhouse gas? ",
+                                                     "Carbon dioxide", "Methane", "Water vapour", "Nitrogen", 4)
+    quiz3_question_and_answer_3 = QuestionAndAnswers(3, "What do greenhouse gases do in our atmosphere? ",
+                                                     "These gases absorb the sun heat & emits radiant energy ",
+                                                     "These gases keep all the air within the Earth",
+                                                     "Increases the Earth's temperature ",
+                                                     "It makes the Earth cooler ", 1)
+    quiz3_question_and_answer_4 = QuestionAndAnswers(3, "Which country has emitted the most CO2?",
+                                                     "China", "USA", "Russia", "Saudi Arabia", 2)
+    quiz3_question_and_answer_5 = QuestionAndAnswers(3, "How long does CO2 remain in the atmosphere?",
+                                                     "CO2 washes out of the atmosphere seasonally.",
+                                                     "CO2 remains in the atmosphere for 5-10 years.",
+                                                     "CO2 remains in the atmosphere for up to 200 years, or more.",
+                                                     "C02 remains in the atmosphere for 100 years", 3)
+    quiz3_question_and_answer_6 = QuestionAndAnswers(3, "When was the last time in Earth's history that CO2 was as high as it is now?",
+                                                     "This is the highest it's ever been",
+                                                     "CO2 was at least this high during the warm periods between the ice ages",
+                                                     "CO2 has not been this high for almost one million years.",
+                                                     "The last time CO2 was this high was 3 million years ago", 3)
+    quiz3_question_and_answer_7 = QuestionAndAnswers(3, "Which of these activities is the largest contributor of greenhouse gases?",
+                                                     "Deforestation",
+                                                     "Transportation",
+                                                     "Landfills",
+                                                     "Agriculture", 2)
+    quiz3_question_and_answer_8 = QuestionAndAnswers(3, "What are the major causes of sea level rise?",
+                                                     "Melting sea ice", "Melting glaciers and ice sheets",
+                                                     "Rivers accelerating", "Rocks and soil washing into the sea", 2)
+    quiz3_question_and_answer_9 = QuestionAndAnswers(3, "Cattle farming results in which of the following greenhouse gases",
+                                                     "Nitrous oxide",
+                                                     "Carbon monoxide",
+                                                     "Methane",
+                                                     "Water vapour", 3)
+    quiz3_question_and_answer_10 = QuestionAndAnswers(3, "Gas molecules that absorb thermal infrared radiation and are present in large quantity "
+                                                         "to alter the climate system is known as",
+                                                      "Greenhouse gases",
+                                                      "Beta radiations",
+                                                      "Alpha radiations",
+                                                      "Ozone gases", 1)
+
+    # add question_and_answers to database
+    db.session.add_all([quiz1_question_and_answer_1, quiz1_question_and_answer_2, quiz1_question_and_answer_3,
+                        quiz1_question_and_answer_4,  quiz1_question_and_answer_5,  quiz1_question_and_answer_6,
+                        quiz1_question_and_answer_7, quiz1_question_and_answer_8,  quiz1_question_and_answer_9,
+                        quiz1_question_and_answer_10,
+                        quiz2_question_and_answer_1, quiz2_question_and_answer_2,
+                        quiz2_question_and_answer_3, quiz2_question_and_answer_4,  quiz2_question_and_answer_5,
+                        quiz2_question_and_answer_6, quiz2_question_and_answer_7, quiz2_question_and_answer_8,
+                        quiz2_question_and_answer_9,  quiz2_question_and_answer_10,
+                        quiz2_question_and_answer_1, quiz2_question_and_answer_2,
+                        quiz2_question_and_answer_3, quiz2_question_and_answer_4, quiz2_question_and_answer_5,
+                        quiz2_question_and_answer_6, quiz2_question_and_answer_7, quiz2_question_and_answer_8,
+                        quiz2_question_and_answer_9, quiz2_question_and_answer_10,
+                        quiz3_question_and_answer_1, quiz3_question_and_answer_2,
+                        quiz3_question_and_answer_3, quiz3_question_and_answer_4, quiz3_question_and_answer_5,
+                        quiz3_question_and_answer_6, quiz3_question_and_answer_7, quiz3_question_and_answer_8,
+                        quiz3_question_and_answer_9, quiz3_question_and_answer_10])
+    db.session.commit()
 
     # SCORES
     # for quiz1

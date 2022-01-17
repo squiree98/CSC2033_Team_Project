@@ -279,8 +279,10 @@ def my_quizzes():
         user_leaderboard = get_leaderboard(view_quizzes[x].id)
         # add leaderboard to quiz's leaderboard value so it can be displayed in html
         view_quizzes[x].leaderboard = user_leaderboard
-    print(view_quizzes)
-    return render_template('quizzes.html', quizzes=view_quizzes)
+    if len(view_quizzes) == 0:
+        flash('You have not added any quizzes', category='error')
+        return render_template('my_quizzes.html', quizzes=view_quizzes)
+    return render_template('my_quizzes.html', quizzes=view_quizzes)
 
 
 @quiz_blueprint.route('/create_quiz', methods=['GET', 'POST'])
@@ -338,8 +340,7 @@ def create_question():
                 db.session.add(new_question)
                 # commit all models to db
                 db.session.commit()
-
-            return render_template('my_quizzes.html')
+            return render_template('profile.html')
     return render_template('create_question.html', form=form, question_num=len(db_data))
 
 
