@@ -91,6 +91,6 @@ def profile():
 @users_blueprint.route('/logout')
 @login_required
 def logout():
-    logout_user()
     logging.warning('SECURITY - Log out [%s, %s, %s]', current_user.id, current_user.username, request.remote_addr)
+    logout_user()
     return redirect(url_for('index'))

@@ -1,11 +1,9 @@
-from flask_login import login_user, logout_user, login_required, current_user
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask_login import login_required, current_user
+from flask import Blueprint, render_template
 from sqlalchemy import desc
-
-from app import db, requires_roles
+from app import requires_roles
 from models import User, Quiz
-from users.forms import RegisterForm, LoginForm
-from datetime import datetime
+
 
 admin_blueprint = Blueprint('admin', __name__, template_folder='templates')
 
