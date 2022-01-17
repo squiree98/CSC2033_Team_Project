@@ -272,6 +272,7 @@ def my_quizzes():
         user_leaderboard = get_leaderboard(view_quizzes[x].id)
         # add leaderboard to quiz's leaderboard value so it can be displayed in html
         view_quizzes[x].leaderboard = user_leaderboard
+    print(view_quizzes)
     return render_template('quizzes.html', quizzes=view_quizzes)
 
 
@@ -284,7 +285,7 @@ def create_quiz():
     # if the form is accepted
     if form.validate_on_submit():
         # create version of quiz
-        new_quiz = [form.name.data, form.age_range.data, current_user.id]
+        new_quiz = [form.name.data, form.age_group.data, current_user.id]
         # create session and add data to session
         session['db_data'] = [new_quiz]
         # load the create question page
@@ -314,7 +315,6 @@ def create_question():
             db.session.add(new_quiz)
             db.session.commit()
             # add questions to db
-            # ToDo: query database for quiz ID and replace quiz_id below with it
             # get user id from the last quiz the user created, the quiz above
             quiz_id = Quiz.query.filter_by(user_id=current_user.id).order_by(desc('id')).first()
             # quiz_id = Quiz.query.filter_by(id=current_user.id)

@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField
+from wtforms import StringField, SubmitField, PasswordField, SelectField
 from wtforms.validators import DataRequired, Length, EqualTo, Email
 
 
@@ -7,13 +7,17 @@ class RegisterForm(FlaskForm):
     # each data field must be error checked
     email = StringField(validators=[DataRequired(), Email()])
 
-    password = PasswordField(validators=[DataRequired(), Length(min=8, max=15,message='Password must be between 8 and 15 characters in length.')])
+    password = PasswordField(validators=[DataRequired(), Length(min=8, max=15,
+                                                message='Password must be between 8 and 15 characters in length.')])
     confirm_password = PasswordField(validators=[DataRequired(), EqualTo('password', message='Passwords must match')])
-    q1 = StringField(validators=[DataRequired()])
-    q2 = StringField(validators=[DataRequired()])
-    q3 = StringField(validators=[DataRequired()])
-    q4 = StringField(validators=[DataRequired()])
-    q5 = StringField(validators=[DataRequired()])
+    q1 = SelectField(u'Climate change causes an increase in temperature', choices=["TRUE", "FALSE"],
+                     validators=[DataRequired()])
+    q2 = SelectField(u'Burning fossil fuels does not cause climate change', choices=["TRUE", "FALSE"],
+                     validators=[DataRequired()])
+    q3 = SelectField(u'Climate change causes immense damage to our wildlife', choices=["TRUE", "FALSE"],
+                     validators=[DataRequired()])
+    q4 = SelectField(u'Climate change has yet to affect us', choices=["TRUE", "FALSE"], validators=[DataRequired()])
+    q5 = SelectField(u'We need to act now', choices=["TRUE", "FALSE"], validators=[DataRequired()])
     submit = SubmitField()
 
 

@@ -12,8 +12,19 @@ users_blueprint = Blueprint('users', __name__, template_folder='templates')
 @users_blueprint.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
-
-    if form.validate_on_submit():
+    # check
+    counter = 0
+    if form.q1.data == "TRUE":
+        counter = counter + 1
+    if form.q2.data == "FALSE":
+        counter = counter + 1
+    if form.q3.data == "TRUE":
+        counter = counter + 1
+    if form.q4.data == "FALSE":
+        counter = counter + 1
+    if form.q5.data == "TRUE":
+        counter = counter + 1
+    if form.validate_on_submit() and counter == 5:
         user = User.query.filter_by(email=form.email.data).first()
         if user:
             flash('Username address already exists')
