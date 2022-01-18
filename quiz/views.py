@@ -26,6 +26,13 @@ def quizzes():
     # and display the most recently created quizzes first
     view_quizzes = Quiz.query.filter(Quiz.user_id != current_user.id).order_by(desc('id')).all()
 
+    # get leaderboards for quizzes leaderboard
+    for x in range(len(view_quizzes)):
+        # generate leaderboard for quiz
+        user_leaderboard = get_leaderboard(view_quizzes[x].id)
+        # add leaderboard to quiz's leaderboard value so it can be displayed in html
+        view_quizzes[x].leaderboard = user_leaderboard
+
     return render_template('quizzes.html', form=search, quizzes=view_quizzes, filtered=False)
 
 
@@ -134,7 +141,20 @@ def filter_by_age_group(age_group):
 
     filtered_quizzes = Quiz.query.filter(Quiz.user_id != current_user.id, Quiz.age_group == age_group)
 
-    return render_template('quizzes.html', quizzes=filtered_quizzes, filtered=True)
+    view_quizzes = []
+
+    # add each quiz in filtered_quizzes to list
+    for quiz in filtered_quizzes:
+        view_quizzes.append(quiz)
+
+    # get leaderboards for quizzes leaderboard
+    for x in range(len(view_quizzes)):
+        # generate leaderboard for quiz
+        user_leaderboard = get_leaderboard(view_quizzes[x].id)
+        # add leaderboard to quiz's leaderboard value so it can be displayed in html
+        view_quizzes[x].leaderboard = user_leaderboard
+
+    return render_template('quizzes.html', quizzes=view_quizzes, filtered=True)
 
 
 @quiz_blueprint.route('/filter_by_reported/')
@@ -149,6 +169,19 @@ def filter_by_reported():
     """
 
     reported_quizzes = Quiz.query.filter(Quiz.user_id != current_user.id, Quiz.number_of_reports > 0).order_by(desc('number_of_reports')).all()
+
+    view_quizzes = []
+
+    # add each quiz in filtered_quizzes to list
+    for quiz in reported_quizzes:
+        view_quizzes.append(quiz)
+
+    # get leaderboards for quizzes leaderboard
+    for x in range(len(view_quizzes)):
+        # generate leaderboard for quiz
+        user_leaderboard = get_leaderboard(view_quizzes[x].id)
+        # add leaderboard to quiz's leaderboard value so it can be displayed in html
+        view_quizzes[x].leaderboard = user_leaderboard
 
     return render_template('quizzes.html', quizzes=reported_quizzes, filtered=True)
 
@@ -199,7 +232,6 @@ def take_quiz():
     :author Kiara
     :date 30/11/2021
     """
-
     question_ids = session.get('question_ids')
 
     # if there are questions
