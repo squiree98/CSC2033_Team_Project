@@ -27,6 +27,7 @@ def register():
     if form.validate_on_submit():
         if counter != 5:
             flash('Questions have not been answered correctly')
+            return render_template('register.html', form=form)
         user = User.query.filter_by(email=form.email.data).first()
         if user:
             flash('Username address already exists')

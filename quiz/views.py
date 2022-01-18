@@ -26,6 +26,13 @@ def quizzes():
     # and display the most recently created quizzes first
     view_quizzes = Quiz.query.filter(Quiz.user_id != current_user.id).order_by(desc('id')).all()
 
+    # get leaderboards for quizzes leaderboard
+    for x in range(len(view_quizzes)):
+        # generate leaderboard for quiz
+        user_leaderboard = get_leaderboard(view_quizzes[x].id)
+        # add leaderboard to quiz's leaderboard value so it can be displayed in html
+        view_quizzes[x].leaderboard = user_leaderboard
+
     return render_template('quizzes.html', form=search, quizzes=view_quizzes, filtered=False)
 
 
@@ -50,12 +57,12 @@ def get_leaderboard(quiz_id):
         # if there's no score there is no user
         if trial_leaderboard[x] == "-":
             # convert to string statement
-            leaderboard.append("Name: - Score: -")
+            leaderboard.append(str(x+1) + ". Username: - Score: -")
         # if there's a score then find user that had score with scores user_id
         else:
             user = User.query.filter_by(id=trial_leaderboard[x].user_id).first()
             # convert to string statement
-            leaderboard.append("Name: " + user.username + "  Score: " + str(trial_leaderboard[x].score_value))
+            leaderboard.append(str(x+1) + ". Username: " + user.username + "  Score: " + str(trial_leaderboard[x].score_value))
     return leaderboard
 
 
@@ -134,7 +141,20 @@ def filter_by_age_group(age_group):
 
     filtered_quizzes = Quiz.query.filter(Quiz.user_id != current_user.id, Quiz.age_group == age_group)
 
-    return render_template('quizzes.html', quizzes=filtered_quizzes, filtered=True)
+    view_quizzes = []
+
+    # add each quiz in filtered_quizzes to list
+    for quiz in filtered_quizzes:
+        view_quizzes.append(quiz)
+
+    # get leaderboards for quizzes leaderboard
+    for x in range(len(view_quizzes)):
+        # generate leaderboard for quiz
+        user_leaderboard = get_leaderboard(view_quizzes[x].id)
+        # add leaderboard to quiz's leaderboard value so it can be displayed in html
+        view_quizzes[x].leaderboard = user_leaderboard
+
+    return render_template('quizzes.html', quizzes=view_quizzes, filtered=True)
 
 
 @quiz_blueprint.route('/filter_by_reported/')
@@ -149,6 +169,19 @@ def filter_by_reported():
     """
 
     reported_quizzes = Quiz.query.filter(Quiz.user_id != current_user.id, Quiz.number_of_reports > 0).order_by(desc('number_of_reports')).all()
+
+    view_quizzes = []
+
+    # add each quiz in filtered_quizzes to list
+    for quiz in reported_quizzes:
+        view_quizzes.append(quiz)
+
+    # get leaderboards for quizzes leaderboard
+    for x in range(len(view_quizzes)):
+        # generate leaderboard for quiz
+        user_leaderboard = get_leaderboard(view_quizzes[x].id)
+        # add leaderboard to quiz's leaderboard value so it can be displayed in html
+        view_quizzes[x].leaderboard = user_leaderboard
 
     return render_template('quizzes.html', quizzes=reported_quizzes, filtered=True)
 
@@ -199,7 +232,6 @@ def take_quiz():
     :author Kiara
     :date 30/11/2021
     """
-
     question_ids = session.get('question_ids')
 
     # if there are questions
@@ -273,15 +305,14 @@ def my_quizzes():
     # get all quizzes that have not been created by currently logged-in user
     # and display the most recently created quizzes first
     view_quizzes = Quiz.query.filter(Quiz.user_id == current_user.id).order_by(desc('id')).all()
+
     # get leaderboards for quizzes leaderboard
     for x in range(len(view_quizzes)):
         # generate leaderboard for quiz
         user_leaderboard = get_leaderboard(view_quizzes[x].id)
         # add leaderboard to quiz's leaderboard value so it can be displayed in html
         view_quizzes[x].leaderboard = user_leaderboard
-    if len(view_quizzes) == 0:
-        flash('You have not added any quizzes', category='error')
-        return render_template('my_quizzes.html', quizzes=view_quizzes)
+
     return render_template('my_quizzes.html', quizzes=view_quizzes)
 
 
@@ -346,7 +377,6 @@ def create_question():
 
 @quiz_blueprint.route('/<int:id>/delete_quiz')
 @login_required
-@requires_roles('admin')
 def delete_quiz(id):
     """
 

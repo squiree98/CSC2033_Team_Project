@@ -7,7 +7,7 @@
 
     <div class="container">
 
-
+    {% if quizzes %}
         <div class="rows">
             {% for quiz in quizzes %}
                 <div class="col-sm-6">
@@ -20,11 +20,21 @@
                         </div>
                     <div class="card-footer text-muted"> Number of plays:
                         <span class="badge">{{ quiz.number_of_plays }}</span>
-                        <a href="{{ url_for('quiz.delete_quiz', id=quiz.id) }}" class="btn btn-success">Delete Quiz</a>
+                        <a href="{{ url_for('quiz.delete_quiz', id=quiz.id) }}" class="btn btn-danger">Delete Quiz</a>
                     </div>
                     </div>
                 </div>
             {% endfor %}
         </div>
     </div>
+    {% else %}
+
+    <div class="card text-center"  style="margin: 20px">
+        <div class="card-body">
+            <h5 class="card-title">No Quizzes Created</h5>
+
+      </div>
+    </div>
+    {% endif %}
+
 {% endblock %}
