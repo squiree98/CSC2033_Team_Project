@@ -14,7 +14,9 @@
             {% endwith %}
             <form method="POST">
                 <div class="field">
-                    {{ form.csrf_token() }}
+                    {% if 'csrf_token' in form %}
+                            {{form.csrf_token}}
+                        {% endif %}
                     <div class="form-group">
                         {{ form.email(class="form-control", placeholder="Email") }}
                     </div>
