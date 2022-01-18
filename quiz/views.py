@@ -388,4 +388,4 @@ def delete_quiz(id):
     Quiz.query.filter_by(id=id).delete()
     db.session.commit()
 
-    return redirect(url_for("quiz.quizzes"))
+    return redirect(url_for("quiz.my_quizzes"))
