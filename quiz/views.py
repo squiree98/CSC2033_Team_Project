@@ -273,14 +273,14 @@ def my_quizzes():
     # get all quizzes that have not been created by currently logged-in user
     # and display the most recently created quizzes first
     view_quizzes = Quiz.query.filter(Quiz.user_id == current_user.id).order_by(desc('id')).all()
+
     # get leaderboards for quizzes leaderboard
     for x in range(len(view_quizzes)):
         # generate leaderboard for quiz
         user_leaderboard = get_leaderboard(view_quizzes[x].id)
         # add leaderboard to quiz's leaderboard value so it can be displayed in html
         view_quizzes[x].leaderboard = user_leaderboard
-    if len(view_quizzes) == 0:
-        return render_template('my_quizzes.html', quizzes=view_quizzes)
+
     return render_template('my_quizzes.html', quizzes=view_quizzes)
 
 
