@@ -3,7 +3,7 @@
 {% block content %}
     {{ share.load() }}
     <div class="card text-center"  style="margin: 20px">
-        <div class="card-body">
+        <div class="card-body text-center">
             {% if score > 7 %}
             <h5 class="card-title">Well done!</h5>
             {% elif score < 5 %}
@@ -16,13 +16,13 @@
             <p class="card-text" > <b> {{ score }} out of 10  </b></p>
 
             <!-- Leader board -->
-            <div class="container">
-                <p class="card-text"> <br> <h3> Leader board:</h3></p>
-                        {% for leaderboard in quiz.leaderboard %}
-                            <p class="card-text">
-                                <p>{{ leaderboard }}</p>
-                            </p>
-                        {% endfor %}
+            <div class="card text-white bg-success mb-3 col-4" style="margin: 0 auto; float: none; margin-bottom: 10px;">
+                <div class="card-header text-center"> <h3> Leader board </h3> </div>
+                <div class="card-body text-center">
+                    {% for leaderboard in quiz.leaderboard %}
+                            <p class="card-text">{{ leaderboard }}</p>
+                    {% endfor %}
+                </div>
             </div>
 
             {{ share.create(title='Share result with: ', sites='facebook, twitter, google, linkedin') }}
