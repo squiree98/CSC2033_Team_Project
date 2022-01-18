@@ -8,7 +8,7 @@
     <div class="container p-3 my-3 bg-transparent border border-success">
         <h4 class="text-left"> All registered users
         <div class="text-right">
-            <a class="btn btn-primary btn-lg" href="{{ url_for('admin.view_users') }}" role="button">View</a>
+            <a class="btn btn-success btn-lg" href="{{ url_for('admin.view_users') }}" role="button">View</a>
             {% for user in users %}
                 <div class="container text-dark text-left">
                     <h5>{{ user.username }} Email: {{ user.email }}</h5>
@@ -20,7 +20,7 @@
     <div class="container p-3 my-3 bg-transparent border border-success">
         <h4 class="text-left"> Quizzes flagged for review
         <div class="text-right">
-            <a class="btn btn-primary btn-lg" href="{{ url_for('admin.view_reported_quizzes') }}" role="button">View</a>
+            <a class="btn btn-success btn-lg" href="{{ url_for('admin.view_reported_quizzes') }}" role="button">View</a>
             {% for quiz in quizzes %}
                 <div class="container">
                     <div class="card-body text-left border border-dark">
@@ -42,7 +42,7 @@
     <div class="container p-3 my-3 bg-transparent border border-success">
         <h4 class="text-left"> Logs
         <div class="text-right">
-            <a class="btn btn-primary btn-lg" href="{{ url_for('admin.logs') }}" role="button">View</a>
+            <a class="btn btn-success btn-lg" href="{{ url_for('admin.logs') }}" role="button">View</a>
             {% for log in logs %}
                 <div class="container text-dark text-left">
                     <h5>{{ log }}</h5>
