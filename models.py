@@ -5,11 +5,11 @@ from datetime import datetime
 import bcrypt
 
 
-def hashPwd(pwd):
+def hash_pwd(pwd):
     bpwd = pwd.encode()
     salt = bcrypt.gensalt()
-    hashedpwd = bcrypt.hashpw(bpwd,salt)
-    return hashedpwd
+    hashed_pwd = bcrypt.hashpw(bpwd, salt)
+    return hashed_pwd
 
 
 def init_db():
@@ -190,7 +190,7 @@ class User(db.Model, UserMixin):
     def __init__(self, username, email, password, role, subscribed):
         self.username = username
         self.email = email
-        self.password = hashPwd(password)
+        self.password = hash_pwd(password)
         self.role = role
         self.subscribed = subscribed
         self.registered_on = datetime.now()
