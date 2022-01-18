@@ -347,7 +347,6 @@ def create_question():
 
 @quiz_blueprint.route('/<int:id>/delete_quiz')
 @login_required
-@requires_roles('admin')
 def delete_quiz(id):
     """
 
