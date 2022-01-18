@@ -40,6 +40,8 @@ def register():
 
         db.session.add(new_user)
         db.session.commit()
+
+        # add user registration to log file
         logging.warning('SECURITY - User registration [%s, %s]', form.email.data, request.remote_addr)
 
         return redirect(url_for("users.login"))
@@ -59,11 +61,13 @@ def login():
             flash('Please check your login details and try again.')
             return render_template('login.html', form=form)
         login_user(user)
+        # Set the last login and current login values of the current user to the current datetime
         user.last_logged_in = datetime.now()
         user.currently_logged_in = datetime.now()
         db.session.add(user)
         db.session.commit()
 
+        # add user log in to log file
         logging.warning('SECURITY - Log in [%s, %s, %s]', current_user.id, current_user.username, request.remote_addr)
 
         if current_user.role == 'user':
@@ -92,9 +96,17 @@ def profile():
 @users_blueprint.route('/logout')
 @login_required
 def logout():
+    """
+        Logs out current user
+        authors Oscar,
+        date 18/01/2022
+    """
+    # add user logout to log file
     logging.warning('SECURITY - Log out [%s, %s, %s]', current_user.id, current_user.username, request.remote_addr)
+    # clear the currently_logged_in value of the current user and log out
     current_user.currently_logged_in = None
     db.session.add(current_user)
     db.session.commit()
     logout_user()
+
     return redirect(url_for('index'))

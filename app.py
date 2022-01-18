@@ -17,6 +17,7 @@ class SecurityFilter(logging.Filter):
         return "SECURITY" in record.getMessage()
 
 
+# writes logs to admin.log file
 fh = logging.FileHandler('admin.log', 'w')
 fh.setLevel(logging.WARNING)
 fh.addFilter(SecurityFilter())
