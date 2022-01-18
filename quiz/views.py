@@ -85,9 +85,13 @@ def search_quizzes(search):
         # check if currently logged-in user has entered their own email address
         if search_string == current_user.email:
 
-            if current_user == 'user':
+            if current_user.role == 'user':
                 flash('You cannot take your own quizzes. Go to "My Quizzes" to view the quizzes you have created.',
                       category='error')
+            else:
+                flash('Admin cannot create quizzes. Search for another user',
+                      category='error')
+
             return redirect(url_for('quiz.quizzes'))
 
         quizzes = Quiz.query.filter_by(user_id=user.id).all()
@@ -105,7 +109,8 @@ def search_quizzes(search):
             return render_template('quizzes.html', quizzes=quizzes, filtered=True)
 
         # display message if no quizzes have been created by user
-        flash('No quizzes found.', category='error')
+
+        flash('No quizzes found for user.', category='error')
         return redirect(url_for('quiz.quizzes'))
 
     else:
