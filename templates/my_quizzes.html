@@ -7,7 +7,7 @@
 
     <div class="container">
 
-
+    {% if quizzes %}
         <div class="rows">
             {% for quiz in quizzes %}
                 <div class="col-sm-6">
@@ -27,4 +27,12 @@
             {% endfor %}
         </div>
     </div>
+    {% else %}
+    <div class="card text-center"  style="margin: 20px">
+        <div class="card-body">
+            <h5 class="card-title">No Quizzes Created</h5>
+
+      </div>
+    </div>
+    {% endif %}
 {% endblock %}
