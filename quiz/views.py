@@ -50,12 +50,12 @@ def get_leaderboard(quiz_id):
         # if there's no score there is no user
         if trial_leaderboard[x] == "-":
             # convert to string statement
-            leaderboard.append("Name: - Score: -")
+            leaderboard.append(str(x+1) + ". Username: - Score: -")
         # if there's a score then find user that had score with scores user_id
         else:
             user = User.query.filter_by(id=trial_leaderboard[x].user_id).first()
             # convert to string statement
-            leaderboard.append("Name: " + user.username + "  Score: " + str(trial_leaderboard[x].score_value))
+            leaderboard.append(str(x+1) + ". Username: " + user.username + "  Score: " + str(trial_leaderboard[x].score_value))
     return leaderboard
 
 

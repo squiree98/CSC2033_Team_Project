@@ -18,13 +18,11 @@
             <!-- Leader board -->
             <div class="container">
                 <p class="card-text"> <br> <h3> Leader board:</h3></p>
-                    <ol class="card-text-center">
                         {% for leaderboard in quiz.leaderboard %}
-                            <li>
+                            <p class="card-text">
                                 <p>{{ leaderboard }}</p>
-                            </li>
+                            </p>
                         {% endfor %}
-                    </ol>
             </div>
 
             {{ share.create(title='Share result with: ', sites='facebook, twitter, google, linkedin') }}
