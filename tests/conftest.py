@@ -1,7 +1,7 @@
 import pytest
-from app import app
-from models import User
-from flask_login import LoginManager, login_user
+from app import app, db
+from flask_login import LoginManager
+from models import User, Quiz
 
 
 def app_config():
@@ -43,6 +43,35 @@ def client():
     return app.test_client()
 
 
+@pytest.fixture(scope='function')
+def init_database(client):
+    # Create the database and the database table
+    db.create_all()
+
+    user = User(username="User", email="User@email.com", password="password123", role="user", subscribed=False)
+    db.session.add(user)
+    db.session.commit()
+
+    quiz = Quiz(user.id, "Climate Action", "5-12")
+    db.session.add(quiz)
+    db.session.commit()
+
+    yield
+
+    # Delete the database tables
+    db.drop_all()
+
+
+@pytest.fixture(scope='function')
+def login_default_user(client):
+    client.post('/login',
+                     data=dict(email='User@email.com', password='password123'),
+                     follow_redirects=True)
+
+    yield
+
+    # log out user
+    client.get('/logout', follow_redirects=True)
 
 
 
