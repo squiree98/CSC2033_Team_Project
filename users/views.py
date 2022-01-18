@@ -11,6 +11,10 @@ users_blueprint = Blueprint('users', __name__, template_folder='templates')
 
 @users_blueprint.route('/register', methods=['GET', 'POST'])
 def register():
+    """
+
+    authors Bodgan, Ewan
+    """
     form = RegisterForm()
     # check if form questions are answered correctly
     counter = 0
@@ -33,13 +37,17 @@ def register():
             flash('Username address already exists')
             return render_template('register.html', form=form)
         email_address = form.email.data
+
+        # get username from email address
         username = email_address.split('@', 1)[0]
 
         new_user = User(username=username, email=form.email.data, password=form.password.data, role='user',
-                        subscribed=0)
+                        subscribed=False)
 
-        db.session.add(new_user)
-        db.session.commit()
+        db.session.add(new_user)  # add new user to the database
+        db.session.commit()  # commit changes
+
+        # log user registration
         logging.warning('SECURITY - User registration [%s, %s]', form.email.data, request.remote_addr)
 
         return redirect(url_for("users.login"))
@@ -78,6 +86,11 @@ def login():
 @login_required
 @requires_roles('user')
 def profile():
+    """
+
+    author Kiara
+    date 17/01/2021
+    """
 
     # get score objects for currently logged-in user
     scores = Score.query.filter_by(user_id=current_user.id).all()
