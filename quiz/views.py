@@ -279,6 +279,7 @@ def my_quizzes():
         user_leaderboard = get_leaderboard(view_quizzes[x].id)
         # add leaderboard to quiz's leaderboard value so it can be displayed in html
         view_quizzes[x].leaderboard = user_leaderboard
+    # ToDo: Fix bug where flash shows up on quiz page not my quizzes page
     if len(view_quizzes) == 0:
         flash('You have not added any quizzes', category='error')
         return render_template('my_quizzes.html', quizzes=view_quizzes)
