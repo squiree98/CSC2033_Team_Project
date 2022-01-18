@@ -1,10 +1,13 @@
-from flask_login import login_user, logout_user, login_required, current_user
+from datetime import datetime
+
+import bcrypt
+import logging
 from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask_login import login_user, logout_user, login_required, current_user
+
 from app import db, requires_roles
 from models import User, Score
 from users.forms import RegisterForm, LoginForm
-from datetime import datetime
-import bcrypt, logging
 
 users_blueprint = Blueprint('users', __name__, template_folder='templates')
 
@@ -28,6 +31,7 @@ def register():
         if counter != 5:
             flash('Questions have not been answered correctly')
             return render_template('register.html', form=form)
+
         user = User.query.filter_by(email=form.email.data).first()
         if user:
             flash('Username address already exists')
@@ -84,6 +88,7 @@ def login():
 @requires_roles('user')
 def profile():
     """
+    Displays profile page
 
     author Kiara
     date 17/01/2021
@@ -103,9 +108,9 @@ def profile():
 @login_required
 def logout():
     """
-        Logs out current user
-        authors Oscar,
-        date 18/01/2022
+    Logs out current user
+    authors Oscar, Bogdan
+    date 18/01/2022
     """
     # add user logout to log file
     logging.warning('SECURITY - Log out [%s, %s, %s]', current_user.id, current_user.username, request.remote_addr)
