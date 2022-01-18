@@ -12,7 +12,8 @@ admin_blueprint = Blueprint('admin', __name__, template_folder='templates')
 @login_required
 @requires_roles('admin')
 def admin():
-    return render_template("admin.html")
+    placeholder_users = [1]
+    return render_template("admin.html", users=placeholder_users)
 
 
 @admin_blueprint.route('/view_reported_quizzes')
@@ -26,8 +27,8 @@ def view_reported_quizzes():
 @admin_blueprint.route('/view_users', methods=['GET', 'POST'])
 @requires_roles('admin')
 def view_users():
-    current_users = User.query.filter_by(role='user').all()
-    return render_template('admin.html', users=current_users)
+    online_users = User.query.filter_by(role='user').where(User.last_logged_in == User.currently_logged_in).all()
+    return render_template('admin.html', users=online_users)
 
 
 @admin_blueprint.route('/logs', methods=['GET', 'POST'])

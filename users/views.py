@@ -58,8 +58,8 @@ def login():
             flash('Please check your login details and try again.')
             return render_template('login.html', form=form)
         login_user(user)
+        user.last_logged_in = datetime.now()
         user.currently_logged_in = datetime.now()
-        user.last_logged_in = user.currently_logged_in
         db.session.add(user)
         db.session.commit()
 
@@ -92,5 +92,8 @@ def profile():
 @login_required
 def logout():
     logging.warning('SECURITY - Log out [%s, %s, %s]', current_user.id, current_user.username, request.remote_addr)
+    current_user.currently_logged_in = None
+    db.session.add(current_user)
+    db.session.commit()
     logout_user()
     return redirect(url_for('index'))
