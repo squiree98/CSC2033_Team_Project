@@ -16,6 +16,7 @@ users_blueprint = Blueprint('users', __name__, template_folder='templates')
 def register():
     """
     Registers a new user
+
     authors Bogdan, Oscar
     date 18/01/2022
     """
@@ -98,7 +99,7 @@ def login():
 @requires_roles('user')
 def profile():
     """
-    Displays profile page
+    Displays the profile page
 
     author Kiara
     date 17/01/2021
@@ -119,6 +120,7 @@ def profile():
 def logout():
     """
     Logs out current user
+
     authors Oscar, Bogdan
     date 18/01/2022
     """
