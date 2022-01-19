@@ -376,7 +376,7 @@ def create_question():
                 db.session.add(new_question)
                 # commit all models to db
                 db.session.commit()
-            return render_template('profile.html')
+            return redirect(url_for('quiz.my_quizzes'))
     return render_template('create_question.html', form=form, question_num=len(db_data))
 
 
