@@ -6,8 +6,18 @@ import bcrypt
 
 
 def hash_pwd(pwd):
+    """
+    Hashes the password
+    authors Bogdan
+    date 16/12/2021
+    :param pwd: users plaintext password
+    :return: hashed password
+    """
+    #encode it as a bytestring
     bpwd = pwd.encode()
+    #generate salt
     salt = bcrypt.gensalt()
+    #hash
     hashed_pwd = bcrypt.hashpw(bpwd, salt)
     return hashed_pwd
 

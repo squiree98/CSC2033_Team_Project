@@ -14,6 +14,11 @@ users_blueprint = Blueprint('users', __name__, template_folder='templates')
 
 @users_blueprint.route('/register', methods=['GET', 'POST'])
 def register():
+    """
+    Registers a new user
+    authors Bogdan, Oscar
+    date 18/01/2022
+    """
     form = RegisterForm()
     # check if form questions are answered correctly
     counter = 0
@@ -55,6 +60,11 @@ def register():
 
 @users_blueprint.route('/login', methods=['GET', 'POST'])
 def login():
+    """
+    Logs in a user
+    authors Bogdan, Oscar
+    date 18/01/2022
+    """
     form = LoginForm()
 
     if form.validate_on_submit():
@@ -74,7 +84,7 @@ def login():
 
         # add user log in to log file
         logging.warning('SECURITY - Log in [%s, %s, %s]', current_user.id, current_user.username, request.remote_addr)
-
+        #redirect user dependent on role
         if current_user.role == 'user':
             return redirect(url_for('users.profile'))
         else:

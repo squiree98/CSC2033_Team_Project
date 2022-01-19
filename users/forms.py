@@ -4,6 +4,10 @@ from wtforms.validators import DataRequired, Length, EqualTo, Email
 
 
 class RegisterForm(FlaskForm):
+    """
+    author Bogdan
+    date 16/12/2021
+    """
     # each data field must be error checked
     email = StringField(validators=[DataRequired(), Email()])
 
@@ -22,6 +26,10 @@ class RegisterForm(FlaskForm):
 
 
 class LoginForm(FlaskForm):
+    """
+    author Bogdan
+    date 17/12/2021
+    """
     email = StringField(validators=[DataRequired(), Email()])
     password = PasswordField(validators=[DataRequired()])
     submit = SubmitField()
