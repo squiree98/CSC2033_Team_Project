@@ -53,7 +53,13 @@ def requires_roles(*roles):
 # HOME PAGE VIEW
 @app.route('/')
 def index():
+    """
+    author Matt
+    date 19/01/2022
+    """
+    # retrieves data from the news api key
     newsapi = NewsApiClient(api_key="c56ddcf9b5104c0289b116ed7aac8d16")
+    # retrieves all news articles from bbc-news to do with climate change
     topheadlines = newsapi.get_everything(sources="bbc-news", q="climate change")
 
     articles = topheadlines['articles']
@@ -62,7 +68,7 @@ def index():
     news = []
     img = []
     url = []
-
+    # creates a list for each news article which contains the title, description, url and image
     for i in range(len(articles)):
         myarticles = articles[i]
 
