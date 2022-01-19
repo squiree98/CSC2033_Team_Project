@@ -14,9 +14,9 @@ def hash_pwd(pwd):
 
 def init_db():
     """
-
+    Initialises the database
     authors Kiara, Bogdan, Ewan
-    date:
+    date 07/12/2021
     """
     # delete database tables (if they exist)
     db.drop_all()
@@ -28,6 +28,12 @@ def init_db():
 
 
 def add_sample_data():
+    """
+    Inserts sample data to the tables in the database
+
+    authors Kiara
+    date 17/01/2022
+    """
     # USERS
     # with 'user' role
     user1 = User(username="User1", email="User1@email.com",
@@ -167,9 +173,10 @@ def add_sample_data():
 
 class User(db.Model, UserMixin):
     """
+    Represents the user table in the database, where attributes map to the columns in the table.
 
-       authors Kiara, Bogdan, Ewan
-       date:
+    authors Kiara, Bogdan, Ewan
+    date: 07/12/2021
     """
     __tablename__ = 'user'
 
@@ -201,9 +208,10 @@ class User(db.Model, UserMixin):
 
 class Quiz(db.Model):
     """
+    Represents the quiz table in the database, where attributes map to the columns in the table
 
-       authors Kiara, Bogdan, Ewan
-       date:
+    authors Kiara, Bogdan, Ewan
+    date: 07/12/2021
     """
     __tablename__ = 'quiz'
 
@@ -227,30 +235,33 @@ class Quiz(db.Model):
 
     def update_number_of_plays(self):
         """
+        Increases the number of plays attribute by 1
 
         author Kiara
         date 07/01/2021
         """
         # increment number of plays by 1
         self.number_of_plays += 1
-        db.session.commit()
+        db.session.commit()  # commit changes to database
 
     def update_number_of_reports(self):
         """
+        Increases the number of reports attribute by 1
 
         author Kiara
         date 07/01/2021
         """
         # increment number of reports by 1
         self.number_of_reports += 1
-        db.session.commit()
+        db.session.commit() # commit changes to database
 
 
 class Score(db.Model):
     """
+    Represents the score table in the database, where attributes map to the columns in the table
 
-       authors Kiara, Bogdan, Ewan
-       date:
+    authors Kiara, Bogdan, Ewan
+    date: 07/12/2021
     """
     __tablename__ = 'score'
 
@@ -270,9 +281,10 @@ class Score(db.Model):
 
 class QuestionAndAnswers(db.Model):
     """
+    Represents the quiz_and_answers table in the database, where attributes map to the columns in the table
 
     authors Kiara, Bogdan, Ewan
-    date:
+    date: 07/12/2021
     """
     __tablename__ = 'question_and_answers'
 
