@@ -79,16 +79,31 @@ def index():
 # ERROR PAGE VIEWS
 @app.errorhandler(403)
 def page_forbidden(error):
+    """
+    in case of 403 error redirects to relevant page
+    author Bogdan
+    date 15/01/2021
+    """
     return render_template('403.html'), 403
 
 
 @app.errorhandler(404)
 def page_not_found(error):
+    """
+    in case of 404 error redirects to relevant page
+    author Bogdan
+    date 15/01/2021
+    """
     return render_template('404.html'), 404
 
 
 @app.errorhandler(500)
 def internal_error(error):
+    """
+    in case of 500 error redirects to relevant page
+    author Bogdan
+    date 15/01/2021
+    """
     return render_template('500.html'), 500
 
 
