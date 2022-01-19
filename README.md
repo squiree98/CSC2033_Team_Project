@@ -1,16 +1,39 @@
 # CSC2033 Team Project
-https://github.com/squiree98/CSC2033_Team_Project
 
-How to run the app:
+## URL to GitHub repository
 
-Install all of the requirements in the terminal by entering:
-```python
+## Installation instructions
+
+Clone the project from GitHub
+
+URL to GitHub repository: https://github.com/squiree98/CSC2033_Team_Project
+
+### Installing dependencies
+
+- Create a new virtual environment
+- Install the python packages specified in requirements.txt:
+
+```
 pip install -r requirements.txt
 ```
-Make the script path app.py by clicking edit configuration (in pycharm)
 
-Connect to the database
 
+### Initialising the database
+
+In the python console (in PyCharm), enter the following commands
+
+```python
 from models import init_db
 
 init_db()
+```
+Note: You must be connected to the team database for the initialising of the database to be successful
+
+### How to run the application
+
+- Create a new configuration or edit configuration and set it to a python configuration.
+- Set the Script path to the path for app.py in the project
+- Run the application (click the green play button in PyCharm)
+- Click the URL that appears in the terminal to launch the web application
+
+
