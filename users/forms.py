@@ -5,7 +5,7 @@ from wtforms.validators import DataRequired, Length, EqualTo, Email
 
 class RegisterForm(FlaskForm):
     """
-    author Bogdan
+    author Bogdan Ewan
     date 16/12/2021
     """
     # each data field must be error checked
