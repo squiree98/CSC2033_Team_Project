@@ -16,7 +16,7 @@ users_blueprint = Blueprint('users', __name__, template_folder='templates')
 def register():
     """
     Registers a new user
-    authors Bogdan, Oscar
+    authors Bogdan, Oscar, Ewan
     date 18/01/2022
     """
     form = RegisterForm()
