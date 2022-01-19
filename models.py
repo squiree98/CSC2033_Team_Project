@@ -8,10 +8,12 @@ import bcrypt
 def hash_pwd(pwd):
     """
     Hashes the password
-    authors Bogdan
-    date 16/12/2021
+
     :param pwd: users plaintext password
     :return: hashed password
+
+    author Bogdan
+    date 16/12/2021
     """
     #encode it as a bytestring
     bpwd = pwd.encode()
@@ -25,6 +27,7 @@ def hash_pwd(pwd):
 def init_db():
     """
     Initialises the database
+
     authors Kiara, Bogdan, Ewan
     date 07/12/2021
     """

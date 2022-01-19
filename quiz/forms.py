@@ -57,6 +57,8 @@ class CreateQuestionForm(FlaskForm):
 
 class SearchForm(FlaskForm):
     """
+    Represents the search form (in the '/quizzes' page)
+
     author Kiara
     date 07/11/2021
     """
