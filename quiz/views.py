@@ -393,4 +393,8 @@ def delete_quiz(id):
     Quiz.query.filter_by(id=id).delete()
     db.session.commit()
 
+    # if user role is admin then it needs to load admin page
+    if current_user.role == 'admin':
+        return redirect(url_for("quiz.quizzes"))
+
     return redirect(url_for("quiz.my_quizzes"))
