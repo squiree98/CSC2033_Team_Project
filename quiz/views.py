@@ -12,7 +12,7 @@ quiz_blueprint = Blueprint('quiz', __name__, template_folder='templates')
 @login_required
 def quizzes():
     """
-    author Kiara
+    author Kiara,  Ewan
     date 30/11/2021
     """
     search = SearchForm()
@@ -37,6 +37,16 @@ def quizzes():
 
 
 def get_leaderboard(quiz_id):
+    """Generates the top 3 scores for a given quiz as an array of strings
+
+    :param: quiz_id
+    :type: integer
+
+     :return leaderboard
+     :rtype: array
+
+     :author: Ewan Squire
+     :date: 17/01/2022"""
     # get all scores from scores table from highest to lowest
     scores = Score.query.filter_by(quiz_id=quiz_id).order_by(desc('score_value')).all()
     # create leaderboard to get score values
@@ -307,6 +317,13 @@ def check_answer(user_answer):
 @login_required
 @requires_roles('user')
 def my_quizzes():
+    """Loads the my_quizzes page
+
+
+    :return: Template for my_quizzes.html
+    :author: Ewan Squire
+    :date: 12/01/2021
+    """
     # get all quizzes that have not been created by currently logged-in user
     # and display the most recently created quizzes first
     view_quizzes = Quiz.query.filter(Quiz.user_id == current_user.id).order_by(desc('id')).all()
@@ -325,6 +342,14 @@ def my_quizzes():
 @login_required
 @requires_roles('user')
 def create_quiz():
+    """Gets values for creating quiz with form and
+     loads create question when done successfully
+
+
+    :return: url for create_question or create_quiz (reloads page)
+    :author: Ewan Squire
+    :date: 15/12/2021
+    """
     # create form
     form = CreateQuizForm()
     # if the form is accepted
@@ -343,6 +368,15 @@ def create_quiz():
 @login_required
 @requires_roles('user')
 def create_question():
+    """Gets values from user for each question in their quiz.
+    Once user is found to have 10 questions it adds data to
+     database and loads my_quizzes page
+
+
+    :return:url for my_quizzes or create_question (reloads page)
+    :author: Ewan Squire
+    :date: 17/12/2021
+    """
     # create form for create question
     form = CreateQuestionForm()
     # if form details are accepted
@@ -387,7 +421,7 @@ def delete_quiz(id):
 
     :param id:
     :return:
-    author: Kiara
+    author: Kiara, Ewan
     date: 30/12/2021
     """
     Quiz.query.filter_by(id=id).delete()
