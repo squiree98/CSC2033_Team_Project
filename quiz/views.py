@@ -12,6 +12,8 @@ quiz_blueprint = Blueprint('quiz', __name__, template_folder='templates')
 @login_required
 def quizzes():
     """
+    Handles the GET and POST requests for '/quizzes' page
+
     author Kiara
     date 30/11/2021
     """
@@ -19,7 +21,7 @@ def quizzes():
 
     # check if handled request is a POST method
     if search.validate_on_submit():
-        # display quizzes that match username given (in search)
+        # display quizzes that match email address given (in search)
         return search_quizzes(search)
 
     # get all quizzes that have not been created by currently logged-in user
@@ -70,6 +72,13 @@ def get_leaderboard(quiz_id):
 @login_required
 def search_quizzes(search):
     """
+    Handles the search functionality when a user submits a valid search form in the '/quizzes' page
+
+    :param search: email address
+    :type str
+
+    :return: Display quizzes that match email address given (in search) in '/search_quizzes' page or
+    redirects user to '/quizzes' page if search is invalid
 
     author Kiara
     date 30/11/2021
@@ -123,8 +132,15 @@ def search_quizzes(search):
 @requires_roles('user')
 def report_quiz(id):
     """
-        :author Kiara
-        :date 07/01/2022
+    Handles the report quiz functionality (when user clicks 'Report' button)
+
+    :param id: quiz id
+    :type: int
+
+    :return Redirects user to '/quizzes' page
+
+    author Kiara
+    date 07/01/2022
     """
 
     # retrieve quiz from database
@@ -139,6 +155,12 @@ def report_quiz(id):
 @requires_roles('user')
 def filter_by_age_group(age_group):
     """
+    Handles the filter by age group functionality in '/quizzes' page
+
+    :param: age group (5-12, 13-17, 18+)
+    :type: str
+
+    :return Displays the quizzes in '/quizzes' page that match the specified age group
 
     :author Kiara
     :date 07/01/2022
@@ -167,8 +189,10 @@ def filter_by_age_group(age_group):
 @requires_roles('admin')
 def filter_by_reported():
     """
+    Handles the filter by reported quizzes functionality in '/quizzes' page
 
-    :return:
+    :return Displays the reported quizzes (in descending order) in '/quizzes' page
+
     :author Kiara
     :date 07/01/2022
     """
@@ -196,9 +220,14 @@ def filter_by_reported():
 @requires_roles('user')
 def quiz_setup(id):
     """
+    Creates session variables for quiz id, question and answer ids and the user's score for the chosen quiz
 
-    :param id:
-    :return:
+    quiz_setup() is invoked when user chooses to take a quiz (i.e., when the 'Take Quiz' button is
+    clicked in '/quizzes' page)
+
+    :param id: quiz id
+    :return: Redirects user to '/take_quiz' page
+
     :author Kiara
     :date 30/11/2021
     """
@@ -232,11 +261,17 @@ def quiz_setup(id):
 @requires_roles('user')
 def take_quiz():
     """
+    Handles the GET request for the '/take_quiz' page, which displays the question and answer options for the quiz
+    being taken
 
-    :return:
-    :author Kiara
-    :date 30/11/2021
+
+    :return: If the user has answered 10 questions, then the '/display_results' page is displayed to the user.
+    Otherwise, the '/take_quiz' page is displayed with the question and answer options for the next question.
+
+    author Kiara
+    date 30/11/2021
     """
+
     question_ids = session.get('question_ids')
 
     # if there are questions
@@ -285,12 +320,21 @@ def take_quiz():
 @requires_roles('user')
 def check_answer(user_answer):
     """
-    :param user_answer:
-    :return:
+    Checks if the answer selected by the user is the correct answer for a question in the quiz
+
+    If the user's answer matches the answer for the question, then the session variable that stores the user's score is
+    incremented by one.
+
+
+    :param user_answer: the user's answer
+    :type str
+
+    :return: The user is directed to '/take_quiz' page.
 
     author Kiara
     date 05/01/2021
     """
+
     # get user's score
     score = session.get('score')
     # get correct answer for current question
@@ -307,6 +351,12 @@ def check_answer(user_answer):
 @login_required
 @requires_roles('user')
 def my_quizzes():
+    """
+    Handles the GET request for '/my_quizzes' page, which displays the quizzes created the currently logged-in user
+
+    authors Ewan, Kiara
+    """
+
     # get all quizzes that have not been created by currently logged-in user
     # and display the most recently created quizzes first
     view_quizzes = Quiz.query.filter(Quiz.user_id == current_user.id).order_by(desc('id')).all()
@@ -384,9 +434,14 @@ def create_question():
 @login_required
 def delete_quiz(id):
     """
+    Deletes a quiz for a given quiz id
 
-    :param id:
-    :return:
+    :param id: quiz id
+    :type int
+
+    :return: Redirects the user with 'admin' role to '/quizzes' page and redirects user with 'user' role to
+    '/my_quizzes' page
+
     author: Kiara
     date: 30/12/2021
     """

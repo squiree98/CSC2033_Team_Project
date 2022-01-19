@@ -1,7 +1,7 @@
 from functools import wraps
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
-from newsapi import NewsApiClient
+from newsapi.newsapi_client import NewsApiClient
 from flask_login import LoginManager, current_user
 from flask_share import Share
 
@@ -30,7 +30,8 @@ logger.addHandler(fh)
 
 # CONFIG
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://csc2033_team27:Lobe?CamJest@cs-db.ncl.ac.uk:3306/csc2033_team27'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://csc2033_team27:Lobe?CamJest@cs-db.ncl.ac.uk:3306/csc2033_team27'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///quiz.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'csc2033_team27_key'
 
